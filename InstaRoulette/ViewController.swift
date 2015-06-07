@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     }
     
     func postToInstagramUrlBased(assetFilePath: String) {
-        let caption = "#instaroulette"
+        let caption = "%23instaroulette"
         let instagramURL = NSURL(string: "instagram://library?AssetPath=\(assetFilePath)&InstagramCaption=\(caption)")!
         
         if UIApplication.sharedApplication().canOpenURL(instagramURL) {
