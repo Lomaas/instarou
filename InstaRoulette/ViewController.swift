@@ -1,13 +1,6 @@
-//
-//  ViewController.swift
-//  InstaRoulette
-//
-//  Created by Simen Johannessen on 03/06/15.
-//  Copyright (c) 2015 lomas. All rights reserved.
-//
-
 import UIKit
 import Photos
+import AssetsLibrary
 
 class ViewController: UIViewController {
     var assets = [PHAsset]()
@@ -17,13 +10,11 @@ class ViewController: UIViewController {
     @IBAction func didPressInstaRoulette(sender: AnyObject) {
         if assets.count == 0 {
             presentAlertView("No pictures", message: "")
+            return
         }
         
         let pic = arc4random_uniform(UInt32(assets.count))
-        
-        getImageFromAsset(assets[Int(pic)], successHandler: { (image) -> Void in
-            self.postToInstragram(image)
-        })
+        getImageFromAsset(assets[Int(pic)])
     }
     
     override func viewDidLoad() {
@@ -47,38 +38,39 @@ class ViewController: UIViewController {
         }
     }
     
-    func getImageFromAsset(asset: PHAsset, successHandler: (image: UIImage) -> Void) {
+    func getImageFromAsset(asset: PHAsset) {
         let manager = PHImageManager.defaultManager()
         let initialRequestOptions = PHImageRequestOptions()
         initialRequestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.HighQualityFormat
         initialRequestOptions.resizeMode = PHImageRequestOptionsResizeMode.Exact
-
+        
         manager.requestImageForAsset(asset,
             targetSize: CGSize(width: 1024, height: 1024),
             contentMode: PHImageContentMode.AspectFit,
             options: initialRequestOptions) { (result, _) in
                 if let res: UIImage = result {
-                    successHandler(image: res)
+                    self.storeImage(res)
                 } else {
                     self.presentAlertView("Error", message: "An error occured while fetching the random photo")
                 }
         }
     }
     
-    func postToInstragram(image: UIImage) {
-        var instagramURL = NSURL(string: "instagram://app")!
+    func storeImage(image: UIImage) {
+        let lib = ALAssetsLibrary()
+        let orientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
+        
+        lib.writeImageToSavedPhotosAlbum(image.CGImage, orientation: orientation, completionBlock: { (url, error) -> Void in
+            self.postToInstagramUrlBased(url.absoluteString!)
+        })
+    }
+    
+    func postToInstagramUrlBased(assetFilePath: String) {
+        let caption = "#instaroulette"
+        let instagramURL = NSURL(string: "instagram://library?AssetPath=\(assetFilePath)&InstagramCaption=\(caption)")!
         
         if UIApplication.sharedApplication().canOpenURL(instagramURL) {
-            let documentDirectory = NSHomeDirectory().stringByAppendingPathComponent("Documents")
-            let saveImagePath = documentDirectory.stringByAppendingPathComponent("Image.igo")
-            let imageData = UIImagePNGRepresentation(image)
-            imageData.writeToFile(saveImagePath, atomically: true)
-            let imageURL = NSURL.fileURLWithPath(saveImagePath)!
-            
-            docController.URL = imageURL
-            docController.UTI = "com.instagram.exclusivegram"
-            docController.annotation = ["InstagramCaption": "#instaroulette"]
-            docController.presentOpenInMenuFromRect(CGRectZero, inView: self.view, animated: true)
+            UIApplication.sharedApplication().openURL(instagramURL)
         } else {
             presentAlertView("Instagram app not found", message: "An Instagram app is required to be installed on your phone")
         }
