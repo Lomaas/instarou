@@ -2,7 +2,7 @@ import UIKit
 import Photos
 import AssetsLibrary
 
-class ViewController: UIViewController {
+class ViewController: GAITrackedViewController {
     var assets = [PHAsset]()
     let docController  = UIDocumentInteractionController()
 
@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.screenName = "Home Screen"
         fetchAssets()
     }
 
