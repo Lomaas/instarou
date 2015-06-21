@@ -13,6 +13,9 @@ class ViewController: GAITrackedViewController {
             return
         }
         
+        let gaiEvent = GAIDictionaryBuilder.createEventWithCategory("Buttons", action: "didPressed", label: "InstaRoulette", value: nil).build()
+        GAI.sharedInstance().defaultTracker.send(gaiEvent as [NSObject : AnyObject])
+        
         let pic = arc4random_uniform(UInt32(assets.count))
         getImageFromAsset(assets[Int(pic)])
     }
