@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,9 +18,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cool-hd-blurred" translatesAutoresizingMaskIntoConstraints="NO" id="2Vo-fq-osT">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="527"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZbA-Ny-gA6">
-                                <rect key="frame" x="237" y="285" width="125" height="30"/>
+                                <rect key="frame" x="0.0" y="527" width="600" height="73"/>
+                                <color key="backgroundColor" red="0.0" green="0.81176470590000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="73" id="T5J-sN-lbT"/>
+                                </constraints>
                                 <state key="normal" title="Play InstaRoulette">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -28,13 +38,30 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ZbA-Ny-gA6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="2bY-EZ-mLh"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ZbA-Ny-gA6" secondAttribute="bottom" id="6Dg-td-63N"/>
+                            <constraint firstItem="2Vo-fq-osT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="6Ui-ua-iUB"/>
+                            <constraint firstItem="2Vo-fq-osT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="EzN-Ho-IR5"/>
+                            <constraint firstAttribute="trailing" secondItem="2Vo-fq-osT" secondAttribute="trailing" id="bWv-V9-76x"/>
+                            <constraint firstItem="ZbA-Ny-gA6" firstAttribute="top" secondItem="2Vo-fq-osT" secondAttribute="bottom" id="dZs-tD-660"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZbA-Ny-gA6" secondAttribute="trailing" constant="-20" id="jFc-lV-Ig7"/>
                             <constraint firstAttribute="centerY" secondItem="ZbA-Ny-gA6" secondAttribute="centerY" id="jU2-xr-D0s"/>
                             <constraint firstAttribute="centerX" secondItem="ZbA-Ny-gA6" secondAttribute="centerX" id="onX-0W-8hX"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="jU2-xr-D0s"/>
+                                <exclude reference="onX-0W-8hX"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="309" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cool-hd-blurred" width="3200" height="2000"/>
+    </resources>
 </document>
