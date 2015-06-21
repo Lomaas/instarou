@@ -2,20 +2,30 @@ import UIKit
 import Photos
 import AssetsLibrary
 
+extension Array {
+    mutating func shuffle() {
+        for i in 0..<(count - 1) {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            swap(&self[i], &self[j])
+        }
+    }
+}
+
 class ViewController: UIViewController {
     var assets = [PHAsset]()
-    let docController  = UIDocumentInteractionController()
     
     var firstAnimationCenterPoint: CGPoint!
     var startFrameOrigin: CGPoint!
     var endCenterPoint: CGPoint!
     var bottomCenterPoint: CGPoint!
     
-    let maxSpinTimesPhaseTwo = 50
+    let maxSpinTimes = 25
+    let maxImagesInMemory = 25
     
-    var animationDuration: CGFloat!
+    var animationDuration: CGFloat = 0.7
     var spinned = 0
-    
+
+    var hasFetchedAssets = false
     var isAnimating = false
     let imageHeight = 250.0
     let imageWidth = 250.0
@@ -26,25 +36,34 @@ class ViewController: UIViewController {
     @IBOutlet weak var bulletImage: UIImageView!
     
     @IBAction func didPressInstaRoulette(sender: AnyObject) {
+        // TODO: Fix this bug when first run
+        if hasFetchedAssets == false {
+            fetchAssets()
+            return
+        }
+        
+        if isAnimating {
+            return
+        }
+        
         if assets.count == 0 {
             presentAlertView("No pictures", message: "")
             return
         }
+        cleanUp()
         
-//        let pic3 = arc4random_uniform(UInt32(assets.count))
-        var done = 0
+        var done = 0    // Todo refactor to use async lib
+        assets.shuffle()
+        let count = assets.count > maxImagesInMemory ? maxImagesInMemory : assets.count - 1
         
-        for index in 0...assets.count - 1 {
-            if index > 10 {
-                break
-            }
+        for index in 0...count {
             self.getImageFromAsset(assets[index]) { (image) -> Void in
                 done++
                 let imageView = self.getImageView(image)
                 self.view.addSubview(imageView)
                 self.images.append(imageView)
                 
-                if done > 10 {
+                if done > self.maxImagesInMemory {
                     self.configureAndStartAnimation()
                 }
             }
@@ -79,11 +98,10 @@ class ViewController: UIViewController {
         
         isAnimating = true
         spinned = 0
-        animationDuration = 1.5
         
-        firstAnimationCenterPoint = CGPointMake(self.view.center.x, CGFloat(imageHeight/2))
-        endCenterPoint = CGPointMake(self.view.center.x, view.frame.size.height/2)
-        bottomCenterPoint = CGPointMake(self.view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
+        firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
+        endCenterPoint = CGPointMake(view.center.x, view.frame.size.height/2)
+        bottomCenterPoint = CGPointMake(view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
         animateNextImage()
     }
     
@@ -91,7 +109,7 @@ class ViewController: UIViewController {
         let imageView = getNextImageView()
         setStartPos(imageView)
         
-        if spinned >= maxSpinTimesPhaseTwo {
+        if spinned >= maxSpinTimes {
             animateFinish(imageView)
             return
         }
@@ -102,6 +120,7 @@ class ViewController: UIViewController {
         let duration = animationDuration / (getTotalHeight() / imageView.frame.height)
         
         UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+//            imageView.transform = CGAffineTransformMakeTranslation(0, self.firstAnimationCenterPoint.y - imageView.center.y)
             imageView.center = self.firstAnimationCenterPoint
         }) { (finished) -> Void in
             self.animateNextImage()
@@ -113,7 +132,7 @@ class ViewController: UIViewController {
         let duration = animationDuration - firstAnimDuration
         
         UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-//            view.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y)
+//            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
             imageView.center = self.bottomCenterPoint
         }) { (finished) -> Void in
             self.spinned++
@@ -131,9 +150,7 @@ class ViewController: UIViewController {
         UIView.animateWithDuration(Double(animationDuration), animations: { () -> Void in
             imageView.center = self.endCenterPoint
         }) { (finished) -> Void in
-            print("test")
-            let image = imageView
-            self.storeImage(image.image!)
+            self.storeImage(imageView.image!)
         }
     }
     
@@ -153,6 +170,13 @@ class ViewController: UIViewController {
         return imageView
     }
     
+    func cleanUp() {
+        for image in images {
+            image.removeFromSuperview()
+        }
+        images.removeAll()
+    }
+    
     // MARK: Fetch images from storage
     
     func fetchAssets() {
@@ -166,6 +190,7 @@ class ViewController: UIViewController {
                 self.assets.append(asset)
             }
         }
+        hasFetchedAssets = true
     }
     
     func getImageFromAsset(asset: PHAsset, successHandler: ((image: UIImage) -> Void)?) {
@@ -204,9 +229,9 @@ class ViewController: UIViewController {
         
         if UIApplication.sharedApplication().canOpenURL(instagramURL) {
             UIApplication.sharedApplication().openURL(instagramURL)
-        } else {
-            presentAlertView("Instagram app not found", message: "An Instagram app is required to be installed on your phone")
         }
+//            presentAlertView("Instagram app not found", message: "An Instagram app is required to be installed on your phone")
+//        }
     }
     
     func presentAlertView(title: String, message: String) {
