@@ -16,6 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        let tracker = GAI.sharedInstance()
+        tracker.trackUncaughtExceptions = true
+        tracker.trackerWithTrackingId("UA-64289382-1")
+        tracker.defaultTracker.allowIDFACollection = true
+        
         return true
     }
 

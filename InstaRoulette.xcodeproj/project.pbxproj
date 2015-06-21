@@ -12,19 +12,15 @@
 		857C17151B1F7CBA00E278FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 857C17131B1F7CBA00E278FD /* Main.storyboard */; };
 		857C17171B1F7CBA00E278FD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 857C17161B1F7CBA00E278FD /* Images.xcassets */; };
 		857C171A1B1F7CBA00E278FD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 857C17181B1F7CBA00E278FD /* LaunchScreen.xib */; };
-		857C17261B1F7CBA00E278FD /* InstaRouletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857C17251B1F7CBA00E278FD /* InstaRouletteTests.swift */; };
 		857C17301B1F7CC600E278FD /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 857C172F1B1F7CC600E278FD /* Photos.framework */; };
+		B7510A0B1B33800E0023EFD6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7510A0A1B33800E0023EFD6 /* CoreData.framework */; };
+		B7510A0D1B3380170023EFD6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7510A0C1B3380170023EFD6 /* SystemConfiguration.framework */; };
+		B7510A0F1B3380240023EFD6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7510A0E1B3380240023EFD6 /* libz.dylib */; };
+		B7510A111B3380320023EFD6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7510A101B3380320023EFD6 /* libsqlite3.dylib */; };
+		B7510A191B3385600023EFD6 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7510A181B3385600023EFD6 /* AdSupport.framework */; };
+		B7510A1C1B36C59E0023EFD6 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7510A1A1B36C59E0023EFD6 /* libGoogleAnalyticsServices.a */; };
+		B7510A1D1B36C59E0023EFD6 /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7510A1B1B36C59E0023EFD6 /* libAdIdAccess.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		857C17201B1F7CBA00E278FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 857C17021B1F7CBA00E278FD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 857C17091B1F7CBA00E278FD;
-			remoteInfo = InstaRoulette;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		857C170A1B1F7CBA00E278FD /* InstaRoulette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaRoulette.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,10 +30,29 @@
 		857C17141B1F7CBA00E278FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		857C17161B1F7CBA00E278FD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		857C17191B1F7CBA00E278FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		857C171F1B1F7CBA00E278FD /* InstaRouletteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstaRouletteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		857C17241B1F7CBA00E278FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		857C17251B1F7CBA00E278FD /* InstaRouletteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstaRouletteTests.swift; sourceTree = "<group>"; };
 		857C172F1B1F7CC600E278FD /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		B75109F41B337F980023EFD6 /* GAI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAI.h; path = SDK/GoogleAnalytics/Library/GAI.h; sourceTree = "<group>"; };
+		B75109F51B337F980023EFD6 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAIDictionaryBuilder.h; path = SDK/GoogleAnalytics/Library/GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		B75109F61B337F980023EFD6 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceFields.h; path = SDK/GoogleAnalytics/Library/GAIEcommerceFields.h; sourceTree = "<group>"; };
+		B75109F71B337F980023EFD6 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceProduct.h; path = SDK/GoogleAnalytics/Library/GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		B75109F81B337F980023EFD6 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAIEcommerceProductAction.h; path = SDK/GoogleAnalytics/Library/GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		B75109F91B337F980023EFD6 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAIEcommercePromotion.h; path = SDK/GoogleAnalytics/Library/GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		B75109FA1B337F980023EFD6 /* GAIFields.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAIFields.h; path = SDK/GoogleAnalytics/Library/GAIFields.h; sourceTree = "<group>"; };
+		B75109FB1B337F980023EFD6 /* GAILogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAILogger.h; path = SDK/GoogleAnalytics/Library/GAILogger.h; sourceTree = "<group>"; };
+		B75109FC1B337F980023EFD6 /* GAITrackedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAITrackedViewController.h; path = SDK/GoogleAnalytics/Library/GAITrackedViewController.h; sourceTree = "<group>"; };
+		B75109FD1B337F980023EFD6 /* GAITracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GAITracker.h; path = SDK/GoogleAnalytics/Library/GAITracker.h; sourceTree = "<group>"; };
+		B7510A0A1B33800E0023EFD6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B7510A0C1B3380170023EFD6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B7510A0E1B3380240023EFD6 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B7510A101B3380320023EFD6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		B7510A121B3380530023EFD6 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalyticsServices.a; path = ../../Downloads/GoogleAnalyticsServicesiOS_3.12/libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		B7510A151B3383830023EFD6 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
+		B7510A161B3385590023EFD6 /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAdIdAccess.a; path = ../../Downloads/GoogleAnalyticsServicesiOS_3.12/libAdIdAccess.a; sourceTree = "<group>"; };
+		B7510A181B3385600023EFD6 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		B7510A1A1B36C59E0023EFD6 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalyticsServices.a; path = SDK/GoogleAnalytics/libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		B7510A1B1B36C59E0023EFD6 /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAdIdAccess.a; path = SDK/GoogleAnalytics/libAdIdAccess.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,14 +60,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7510A1C1B36C59E0023EFD6 /* libGoogleAnalyticsServices.a in Frameworks */,
+				B7510A1D1B36C59E0023EFD6 /* libAdIdAccess.a in Frameworks */,
+				B7510A191B3385600023EFD6 /* AdSupport.framework in Frameworks */,
+				B7510A111B3380320023EFD6 /* libsqlite3.dylib in Frameworks */,
+				B7510A0F1B3380240023EFD6 /* libz.dylib in Frameworks */,
+				B7510A0D1B3380170023EFD6 /* SystemConfiguration.framework in Frameworks */,
+				B7510A0B1B33800E0023EFD6 /* CoreData.framework in Frameworks */,
 				857C17301B1F7CC600E278FD /* Photos.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		857C171C1B1F7CBA00E278FD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +77,8 @@
 		857C17011B1F7CBA00E278FD = {
 			isa = PBXGroup;
 			children = (
-				857C172F1B1F7CC600E278FD /* Photos.framework */,
+				B7510A141B3380660023EFD6 /* Frameworks */,
+				B7510A081B337FC20023EFD6 /* SDK */,
 				857C170C1B1F7CBA00E278FD /* InstaRoulette */,
 				857C17221B1F7CBA00E278FD /* InstaRouletteTests */,
 				857C170B1B1F7CBA00E278FD /* Products */,
@@ -73,7 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				857C170A1B1F7CBA00E278FD /* InstaRoulette.app */,
-				857C171F1B1F7CBA00E278FD /* InstaRouletteTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				857C170F1B1F7CBA00E278FD /* AppDelegate.swift */,
+				B7510A151B3383830023EFD6 /* Bridge.h */,
 				857C17111B1F7CBA00E278FD /* ViewController.swift */,
 				857C17131B1F7CBA00E278FD /* Main.storyboard */,
 				857C17161B1F7CBA00E278FD /* Images.xcassets */,
@@ -116,6 +132,48 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B7510A081B337FC20023EFD6 /* SDK */ = {
+			isa = PBXGroup;
+			children = (
+				B7510A091B337FCD0023EFD6 /* GoogleAnalytics */,
+			);
+			name = SDK;
+			sourceTree = "<group>";
+		};
+		B7510A091B337FCD0023EFD6 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				B75109F41B337F980023EFD6 /* GAI.h */,
+				B75109F51B337F980023EFD6 /* GAIDictionaryBuilder.h */,
+				B75109F61B337F980023EFD6 /* GAIEcommerceFields.h */,
+				B75109F71B337F980023EFD6 /* GAIEcommerceProduct.h */,
+				B75109F81B337F980023EFD6 /* GAIEcommerceProductAction.h */,
+				B75109F91B337F980023EFD6 /* GAIEcommercePromotion.h */,
+				B75109FA1B337F980023EFD6 /* GAIFields.h */,
+				B75109FB1B337F980023EFD6 /* GAILogger.h */,
+				B75109FC1B337F980023EFD6 /* GAITrackedViewController.h */,
+				B75109FD1B337F980023EFD6 /* GAITracker.h */,
+			);
+			name = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
+		B7510A141B3380660023EFD6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B7510A1A1B36C59E0023EFD6 /* libGoogleAnalyticsServices.a */,
+				B7510A1B1B36C59E0023EFD6 /* libAdIdAccess.a */,
+				B7510A181B3385600023EFD6 /* AdSupport.framework */,
+				B7510A161B3385590023EFD6 /* libAdIdAccess.a */,
+				B7510A121B3380530023EFD6 /* libGoogleAnalyticsServices.a */,
+				B7510A101B3380320023EFD6 /* libsqlite3.dylib */,
+				B7510A0E1B3380240023EFD6 /* libz.dylib */,
+				B7510A0C1B3380170023EFD6 /* SystemConfiguration.framework */,
+				B7510A0A1B33800E0023EFD6 /* CoreData.framework */,
+				857C172F1B1F7CC600E278FD /* Photos.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -136,24 +194,6 @@
 			productReference = 857C170A1B1F7CBA00E278FD /* InstaRoulette.app */;
 			productType = "com.apple.product-type.application";
 		};
-		857C171E1B1F7CBA00E278FD /* InstaRouletteTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 857C172C1B1F7CBA00E278FD /* Build configuration list for PBXNativeTarget "InstaRouletteTests" */;
-			buildPhases = (
-				857C171B1B1F7CBA00E278FD /* Sources */,
-				857C171C1B1F7CBA00E278FD /* Frameworks */,
-				857C171D1B1F7CBA00E278FD /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				857C17211B1F7CBA00E278FD /* PBXTargetDependency */,
-			);
-			name = InstaRouletteTests;
-			productName = InstaRouletteTests;
-			productReference = 857C171F1B1F7CBA00E278FD /* InstaRouletteTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -165,11 +205,7 @@
 				TargetAttributes = {
 					857C17091B1F7CBA00E278FD = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = H8L8VRZJUX;
-					};
-					857C171E1B1F7CBA00E278FD = {
-						CreatedOnToolsVersion = 6.3.2;
-						TestTargetID = 857C17091B1F7CBA00E278FD;
+						DevelopmentTeam = 2EMY9ZDFNB;
 					};
 				};
 			};
@@ -187,7 +223,6 @@
 			projectRoot = "";
 			targets = (
 				857C17091B1F7CBA00E278FD /* InstaRoulette */,
-				857C171E1B1F7CBA00E278FD /* InstaRouletteTests */,
 			);
 		};
 /* End PBXProject section */
@@ -203,13 +238,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		857C171D1B1F7CBA00E278FD /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -222,23 +250,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		857C171B1B1F7CBA00E278FD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				857C17261B1F7CBA00E278FD /* InstaRouletteTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		857C17211B1F7CBA00E278FD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 857C17091B1F7CBA00E278FD /* InstaRoulette */;
-			targetProxy = 857C17201B1F7CBA00E278FD /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		857C17131B1F7CBA00E278FD /* Main.storyboard */ = {
@@ -351,8 +363,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = InstaRoulette/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/havard,
+					heggheim/Downloads/GoogleAnalyticsServicesiOS_3.12,
+					"$(PROJECT_DIR)/SDK/GoogleAnalytics",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = InstaRoulette/Bridge.h;
 			};
 			name = Debug;
 		};
@@ -364,42 +383,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = InstaRoulette/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/havard,
+					heggheim/Downloads/GoogleAnalyticsServicesiOS_3.12,
+					"$(PROJECT_DIR)/SDK/GoogleAnalytics",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-			};
-			name = Release;
-		};
-		857C172D1B1F7CBA00E278FD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = InstaRouletteTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InstaRoulette.app/InstaRoulette";
-			};
-			name = Debug;
-		};
-		857C172E1B1F7CBA00E278FD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = InstaRouletteTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InstaRoulette.app/InstaRoulette";
+				SWIFT_OBJC_BRIDGING_HEADER = InstaRoulette/Bridge.h;
 			};
 			name = Release;
 		};
@@ -420,15 +412,6 @@
 			buildConfigurations = (
 				857C172A1B1F7CBA00E278FD /* Debug */,
 				857C172B1B1F7CBA00E278FD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		857C172C1B1F7CBA00E278FD /* Build configuration list for PBXNativeTarget "InstaRouletteTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				857C172D1B1F7CBA00E278FD /* Debug */,
-				857C172E1B1F7CBA00E278FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
