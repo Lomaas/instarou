@@ -23,11 +23,8 @@ class ViewController: UIViewController {
     }
 
     func fetchAssets() {
-        if let results = PHAsset.fetchAssetsWithMediaType(.Image, options: nil) {
-            self.evaluateResult(results)
-        } else {
-            presentAlertView("Error", message: "An error occured when fetching your images. Did you press yes to allow the app to use photos?")
-        }
+        let results = PHAsset.fetchAssetsWithMediaType(.Image, options: nil)
+        self.evaluateResult(results)
     }
     
     func evaluateResult(results: PHFetchResult){
@@ -59,10 +56,10 @@ class ViewController: UIViewController {
     func storeImage(image: UIImage) {
         let lib = ALAssetsLibrary()
         let orientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
-        
-        lib.writeImageToSavedPhotosAlbum(image.CGImage, orientation: orientation, completionBlock: { (url, error) -> Void in
-            self.postToInstagramUrlBased(url.absoluteString!)
-        })
+        lib.writeImageToSavedPhotosAlbum(image.CGImage!, orientation: orientation) { (url, error) -> Void in
+                print("Hello")
+                self.postToInstagramUrlBased(url.absoluteString)
+        }
     }
     
     func postToInstagramUrlBased(assetFilePath: String) {
