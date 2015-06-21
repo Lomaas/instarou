@@ -6,23 +6,21 @@ class ViewController: UIViewController {
     var assets = [PHAsset]()
     let docController  = UIDocumentInteractionController()
     
+    var firstAnimationCenterPoint: CGPoint!
     var startFrameOrigin: CGPoint!
     var endCenterPoint: CGPoint!
     var bottomCenterPoint: CGPoint!
     
-    let maxSpinTimesPhaseOne = 15
-    let maxSpinTimesPhaseTwo = 16
+    let maxSpinTimesPhaseTwo = 50
     
-    var animationDuration: Double!
+    var animationDuration: CGFloat!
     var spinned = 0
     
     var isAnimating = false
+    let imageHeight = 250.0
+    let imageWidth = 250.0
     
-    var myImage1 = UIImageView(frame: CGRectMake(20, -250, 250, 250))
-    var myImage2 = UIImageView(frame: CGRectMake(20, -250, 250, 250))
-    var myImage3 = UIImageView(frame: CGRectMake(20, -250, 250, 250))
-    
-    var images = [UIImage]()
+    var images = [UIImageView]()
     var currentImageIndex = 0
     
     @IBOutlet weak var bulletImage: UIImageView!
@@ -34,48 +32,46 @@ class ViewController: UIViewController {
         }
         
 //        let pic3 = arc4random_uniform(UInt32(assets.count))
+        var done = 0
         
         for index in 0...assets.count - 1 {
             if index > 10 {
                 break
             }
             self.getImageFromAsset(assets[index]) { (image) -> Void in
-                self.images.append(image)
+                done++
+                let imageView = self.getImageView(image)
+                self.view.addSubview(imageView)
+                self.images.append(imageView)
+                
+                if done > 10 {
+                    self.configureAndStartAnimation()
+                }
             }
         }
-        configureAndStartAnimation()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        myImage1.image = UIImage(named: "blurredimage")
-        myImage1 = configureImageView(myImage1)
-        myImage2.image = UIImage(named: "blurredimage2")
-        myImage2 = configureImageView(myImage2)
-        myImage3.image = UIImage(named: "blurredimage3")
-        myImage3 = configureImageView(myImage3)
-        
-        view.addSubview(myImage1)
-        view.addSubview(myImage2)
-        view.addSubview(myImage3)
-        
         fetchAssets()
     }
-    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         print("Did Receive memory warning")
     }
     
-    func configureImageView(image: UIImageView) -> UIImageView {
-        image.layer.cornerRadius = 3.0
-        image.layer.backgroundColor = UIColor.whiteColor().CGColor
-        image.layer.borderWidth = 2.0
-        image.layer.borderColor = UIColor.whiteColor().CGColor
-        image.backgroundColor = UIColor.clearColor()
-        image.contentMode = UIViewContentMode.ScaleAspectFill
-        image.clipsToBounds = true
-        return image
+    func getImageView(image: UIImage) -> UIImageView {
+        let imageView = UIImageView(frame: CGRectMake(0.0, CGFloat(-imageHeight), CGFloat(imageWidth), CGFloat(imageHeight)))
+        imageView.image = image
+        imageView.layer.cornerRadius = 3.0
+        imageView.layer.backgroundColor = UIColor.whiteColor().CGColor
+        imageView.layer.borderWidth = 3.0
+        imageView.layer.borderColor = UIColor.whiteColor().CGColor
+        imageView.backgroundColor = UIColor.clearColor()
+        imageView.contentMode = UIViewContentMode.ScaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
     }
     
     func configureAndStartAnimation() {
@@ -83,85 +79,82 @@ class ViewController: UIViewController {
         
         isAnimating = true
         spinned = 0
-        animationDuration = 0.75
-        times = 0
+        animationDuration = 1.5
         
+        firstAnimationCenterPoint = CGPointMake(self.view.center.x, CGFloat(imageHeight/2))
         endCenterPoint = CGPointMake(self.view.center.x, view.frame.size.height/2)
-        bottomCenterPoint = CGPointMake(self.view.center.x, view.frame.size.height + myImage3.frame.height/2)
-        
-        var timer = NSTimer.scheduledTimerWithTimeInterval(0, target: self, selector: Selector("start"), userInfo: nil, repeats: false)
-        timer = NSTimer.scheduledTimerWithTimeInterval(animationDuration/3, target: self, selector: Selector("start"), userInfo: nil, repeats: false)
-        timer = NSTimer.scheduledTimerWithTimeInterval((animationDuration/3) * 2, target: self, selector: Selector("start"), userInfo: nil, repeats: false)
+        bottomCenterPoint = CGPointMake(self.view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
+        animateNextImage()
     }
     
-    var times = 0
-    
-    func start() {
-        print("Start")
-        if times == 0 {
-            animate(myImage1)
-        } else if times == 1 {
-            animate(myImage2)
-        } else {
-            animate(myImage3)
-        }
-        times++
-    }
-    
-    func animate(view: UIView) {
-        setStartPos(view)
-        setImage(view as! UIImageView)
+    func animateNextImage() {
+        let imageView = getNextImageView()
+        setStartPos(imageView)
         
         if spinned >= maxSpinTimesPhaseTwo {
-            animateFinish(myImage1)
+            animateFinish(imageView)
             return
         }
+        animateFirstPart(imageView)
+    }
+    
+    func animateFirstPart(imageView: UIImageView) {
+        let duration = animationDuration / (getTotalHeight() / imageView.frame.height)
         
-//        if spinned > maxSpinTimesPhaseOne {
-//            animationDuration += 0.01
-//        }
-        
-        UIView.animateWithDuration(animationDuration, animations: { () -> Void in
-            view.center = self.bottomCenterPoint
+        UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+            imageView.center = self.firstAnimationCenterPoint
         }) { (finished) -> Void in
-            self.spinned++
-            self.animate(view)
+            self.animateNextImage()
+            self.animateSecondPart(imageView, firstAnimDuration: duration)
         }
     }
     
-    func animateFinish(view: UIView) {
+    func animateSecondPart(imageView: UIImageView, firstAnimDuration: CGFloat) {
+        let duration = animationDuration - firstAnimDuration
+        
+        UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+//            view.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y)
+            imageView.center = self.bottomCenterPoint
+        }) { (finished) -> Void in
+            self.spinned++
+        }
+    }
+    
+    func animateFinish(imageView: UIImageView) {
         if isAnimating == false {
             return
         }
         
         isAnimating = false
-        setStartPos(view)
+        setStartPos(imageView)
 
-        UIView.animateWithDuration(animationDuration, animations: { () -> Void in
-            view.center = self.endCenterPoint
+        UIView.animateWithDuration(Double(animationDuration), animations: { () -> Void in
+            imageView.center = self.endCenterPoint
         }) { (finished) -> Void in
             print("test")
-            let image = view as! UIImageView
+            let image = imageView
             self.storeImage(image.image!)
         }
     }
     
-    func setStartPos(view: UIView) {
-        view.center.y = -view.frame.height/2
-        view.center.x = self.view.center.x
+    func setStartPos(imageView: UIImageView) {
+        imageView.center.y = -CGFloat(imageHeight/2)
+        imageView.center.x = self.view.center.x
     }
     
-    func setImage(view: UIImageView) {
-        if images.count == 0 {
-            return
-        }
-        
-        view.image = images[currentImageIndex]
+    func getTotalHeight() -> CGFloat {
+        return self.view.frame.size.height + CGFloat(imageHeight)
+    }
+    
+    func getNextImageView() -> UIImageView {
+        let imageView = images[currentImageIndex]
         currentImageIndex++
         currentImageIndex = currentImageIndex%(images.count - 1)
-        print("currentImageIndex: \(currentImageIndex)")
+        return imageView
     }
-
+    
+    // MARK: Fetch images from storage
+    
     func fetchAssets() {
         let results = PHAsset.fetchAssetsWithMediaType(.Image, options: nil)
         self.evaluateResult(results)
@@ -194,6 +187,8 @@ class ViewController: UIViewController {
         }
     }
     
+    // MARK: Store & post to instagram
+    
     func storeImage(image: UIImage) {
         let lib = ALAssetsLibrary()
         let orientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
@@ -207,11 +202,11 @@ class ViewController: UIViewController {
         let caption = "%23instaroulette"
         let instagramURL = NSURL(string: "instagram://library?AssetPath=\(assetFilePath)&InstagramCaption=\(caption)")!
         
-//        if UIApplication.sharedApplication().canOpenURL(instagramURL) {
+        if UIApplication.sharedApplication().canOpenURL(instagramURL) {
             UIApplication.sharedApplication().openURL(instagramURL)
-//        } else {
-//            presentAlertView("Instagram app not found", message: "An Instagram app is required to be installed on your phone")
-//        }
+        } else {
+            presentAlertView("Instagram app not found", message: "An Instagram app is required to be installed on your phone")
+        }
     }
     
     func presentAlertView(title: String, message: String) {
