@@ -11,6 +11,10 @@ extension Array {
     }
 }
 
+func random(range: Range<UInt32>) -> UInt32 {
+    return range.startIndex + arc4random_uniform(range.endIndex - range.startIndex + 1)
+}
+
 class ViewController: UIViewController {
     var assets = [PHAsset]()
     
@@ -19,12 +23,12 @@ class ViewController: UIViewController {
     var endCenterPoint: CGPoint!
     var bottomCenterPoint: CGPoint!
     
-    let maxSpinTimes = 25
+    let maxSpinTimes = Int(random(7...19))
     let maxImagesInMemory = 25
     
     var animationDuration: CGFloat = 0.7
     var spinned = 0
-
+    
     var hasFetchedAssets = false
     var isAnimating = false
     let imageHeight = 250.0
@@ -33,8 +37,7 @@ class ViewController: UIViewController {
     var images = [UIImageView]()
     var currentImageIndex = 0
     
-    @IBOutlet weak var bulletImage: UIImageView!
-    
+    @IBOutlet weak var spinButton: UIButton!
     @IBAction func didPressInstaRoulette(sender: AnyObject) {
         // TODO: Fix this bug when first run
         if hasFetchedAssets == false {
@@ -60,7 +63,7 @@ class ViewController: UIViewController {
             self.getImageFromAsset(assets[index]) { (image) -> Void in
                 done++
                 let imageView = self.getImageView(image)
-                self.view.addSubview(imageView)
+                self.view.insertSubview(imageView, belowSubview: self.spinButton)
                 self.images.append(imageView)
                 
                 if done > self.maxImagesInMemory {
@@ -74,7 +77,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         fetchAssets()
     }
-   
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         print("Did Receive memory warning")
@@ -106,13 +109,12 @@ class ViewController: UIViewController {
     }
     
     func animateNextImage() {
-        let imageView = getNextImageView()
-        setStartPos(imageView)
-        
         if spinned >= maxSpinTimes {
-            animateFinish(imageView)
+            animateFinish()
             return
         }
+        let imageView = getNextImageView()
+        setStartPos(imageView)
         animateFirstPart(imageView)
     }
     
@@ -120,11 +122,11 @@ class ViewController: UIViewController {
         let duration = animationDuration / (getTotalHeight() / imageView.frame.height)
         
         UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-//            imageView.transform = CGAffineTransformMakeTranslation(0, self.firstAnimationCenterPoint.y - imageView.center.y)
+            //            imageView.transform = CGAffineTransformMakeTranslation(0, self.firstAnimationCenterPoint.y - imageView.center.y)
             imageView.center = self.firstAnimationCenterPoint
-        }) { (finished) -> Void in
-            self.animateNextImage()
-            self.animateSecondPart(imageView, firstAnimDuration: duration)
+            }) { (finished) -> Void in
+                self.animateNextImage()
+                self.animateSecondPart(imageView, firstAnimDuration: duration)
         }
     }
     
@@ -132,26 +134,88 @@ class ViewController: UIViewController {
         let duration = animationDuration - firstAnimDuration
         
         UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-//            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
+            //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
             imageView.center = self.bottomCenterPoint
-        }) { (finished) -> Void in
-            self.spinned++
+            }) { (finished) -> Void in
+                self.spinned++
         }
     }
     
-    func animateFinish(imageView: UIImageView) {
+    func animateSecondPartOfFinish(imageView: UIImageView, firstAnimDuration: CGFloat) {
+        let duration = animationDuration - firstAnimDuration
+        
+        UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+            //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
+            imageView.center = self.bottomCenterPoint
+            }) { (finished) -> Void in
+                self.spinned++
+        }
+    }
+    
+    func animateFinish() {
         if isAnimating == false {
             return
         }
         
         isAnimating = false
-        setStartPos(imageView)
-
-        UIView.animateWithDuration(Double(animationDuration), animations: { () -> Void in
-            imageView.center = self.endCenterPoint
-        }) { (finished) -> Void in
-            self.storeImage(imageView.image!)
+        
+        let imageView1 = getNextImageView()
+        let endPos1 = CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight))
+        setStartPos(imageView1)
+        
+        let imageView2 = getNextImageView()
+        let endPos2 = CGPointMake(self.view.center.x, self.view.center.y)
+        setStartPos(imageView2)
+        
+        let imageView3 = getNextImageView()
+        let endPos3 = CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight))
+        setStartPos(imageView3)
+        
+        typealias Tuple = (imageView: UIImageView, endPos: CGPoint, duration: CGFloat)
+        let finishImages: [Tuple] = [
+            (imageView3, endPos3, self.animationDuration / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos3.y)),
+            (imageView2, endPos2, self.animationDuration / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos2.y)),
+            (imageView1, endPos1, self.animationDuration / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos1.y))
+            
+        ]
+        
+        var index = 0
+        
+        func secondAnim(imageMeta: Tuple) {
+            UIView.animateWithDuration(Double(imageMeta.duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+                //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
+                imageMeta.imageView.center = imageMeta.endPos
+                }) { (finished) -> Void in
+                    
+            }
         }
+        
+        func firstAnim(imageMeta: Tuple) {
+            let endPosY = imageMeta.endPos.y < self.firstAnimationCenterPoint.y ? imageMeta.endPos.y : self.firstAnimationCenterPoint.y
+            
+            let duration = self.animationDuration / (self.getTotalHeight() / CGFloat(self.imageHeight))
+            
+            
+            
+            UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+                imageMeta.imageView.center.y = endPosY
+                }) { (finished) -> Void in
+                    if imageMeta.endPos.y > self.firstAnimationCenterPoint.y {
+                        secondAnim(imageMeta)
+                    }
+                    index++
+                    if index < finishImages.count {
+                        firstAnim(finishImages[index])
+                    }
+            }
+        }
+        
+        firstAnim(finishImages[index])
+        //        UIView.animateWithDuration(Double(animationDuration), animations: { () -> Void in
+        //            imageView.center = self.endpos1
+        //        }) { (finished) -> Void in
+        //            self.storeImage(imageView.image!)
+        //        }
     }
     
     func setStartPos(imageView: UIImageView) {
@@ -205,7 +269,7 @@ class ViewController: UIViewController {
             options: initialRequestOptions) { (result, _) in
                 if let res: UIImage = result {
                     successHandler?(image: res)
-//                    self.storeImage(res)
+                    //                    self.storeImage(res)
                 } else {
                     self.presentAlertView("Error", message: "An error occured while fetching the random photo")
                 }
@@ -218,8 +282,8 @@ class ViewController: UIViewController {
         let lib = ALAssetsLibrary()
         let orientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
         lib.writeImageToSavedPhotosAlbum(image.CGImage!, orientation: orientation) { (url, error) -> Void in
-                print("Hello")
-                self.postToInstagramUrlBased(url.absoluteString)
+            print("Hello")
+            self.postToInstagramUrlBased(url.absoluteString)
         }
     }
     
@@ -230,8 +294,8 @@ class ViewController: UIViewController {
         if UIApplication.sharedApplication().canOpenURL(instagramURL) {
             UIApplication.sharedApplication().openURL(instagramURL)
         }
-//            presentAlertView("Instagram app not found", message: "An Instagram app is required to be installed on your phone")
-//        }
+        //            presentAlertView("Instagram app not found", message: "An Instagram app is required to be installed on your phone")
+        //        }
     }
     
     func presentAlertView(title: String, message: String) {
