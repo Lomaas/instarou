@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		855513011B3B429F00970570 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855513001B3B429F00970570 /* LocationService.swift */; };
+		855513031B3B438D00970570 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 855513021B3B438D00970570 /* CoreLocation.framework */; };
+		855513051B3B469E00970570 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855513041B3B469E00970570 /* CustomImageView.swift */; };
 		857C17101B1F7CBA00E278FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857C170F1B1F7CBA00E278FD /* AppDelegate.swift */; };
 		857C17121B1F7CBA00E278FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857C17111B1F7CBA00E278FD /* ViewController.swift */; };
 		857C17151B1F7CBA00E278FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 857C17131B1F7CBA00E278FD /* Main.storyboard */; };
@@ -27,6 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		855513001B3B429F00970570 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		855513021B3B438D00970570 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		855513041B3B469E00970570 /* CustomImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		857C170A1B1F7CBA00E278FD /* InstaRoulette.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaRoulette.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		857C170E1B1F7CBA00E278FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		857C170F1B1F7CBA00E278FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				855513031B3B438D00970570 /* CoreLocation.framework in Frameworks */,
 				857C17301B1F7CC600E278FD /* Photos.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,6 +69,7 @@
 		857C17011B1F7CBA00E278FD = {
 			isa = PBXGroup;
 			children = (
+				855513021B3B438D00970570 /* CoreLocation.framework */,
 				857C172F1B1F7CC600E278FD /* Photos.framework */,
 				857C170C1B1F7CBA00E278FD /* InstaRoulette */,
 				857C17221B1F7CBA00E278FD /* InstaRouletteTests */,
@@ -82,7 +90,9 @@
 			isa = PBXGroup;
 			children = (
 				857C170F1B1F7CBA00E278FD /* AppDelegate.swift */,
+				855513041B3B469E00970570 /* CustomImageView.swift */,
 				857C17111B1F7CBA00E278FD /* ViewController.swift */,
+				855513001B3B429F00970570 /* LocationService.swift */,
 				857C17131B1F7CBA00E278FD /* Main.storyboard */,
 				857C17161B1F7CBA00E278FD /* Images.xcassets */,
 				857C17181B1F7CBA00E278FD /* LaunchScreen.xib */,
@@ -219,6 +229,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				857C17121B1F7CBA00E278FD /* ViewController.swift in Sources */,
+				855513051B3B469E00970570 /* CustomImageView.swift in Sources */,
+				855513011B3B429F00970570 /* LocationService.swift in Sources */,
 				857C17101B1F7CBA00E278FD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

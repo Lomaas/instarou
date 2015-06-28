@@ -23,10 +23,10 @@ class ViewController: UIViewController {
     var endCenterPoint: CGPoint!
     var bottomCenterPoint: CGPoint!
     
+    let velocity = 50
     let maxSpinTimes = Int(random(7...19))
     let maxImagesInMemory = 25
     
-    var animationDuration: CGFloat = 0.7
     var spinned = 0
     
     var hasFetchedAssets = false
@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     let imageHeight = 250.0
     let imageWidth = 250.0
     
-    var images = [UIImageView]()
+    var images = [CustomImageView]()
     var currentImageIndex = 0
     
     @IBOutlet weak var spinButton: UIButton!
@@ -63,6 +63,7 @@ class ViewController: UIViewController {
             self.getImageFromAsset(assets[index]) { (image) -> Void in
                 done++
                 let imageView = self.getImageView(image)
+                imageView.asset = self.assets[index]
                 self.view.insertSubview(imageView, belowSubview: self.spinButton)
                 self.images.append(imageView)
                 
@@ -83,12 +84,12 @@ class ViewController: UIViewController {
         print("Did Receive memory warning")
     }
     
-    func getImageView(image: UIImage) -> UIImageView {
-        let imageView = UIImageView(frame: CGRectMake(0.0, CGFloat(-imageHeight), CGFloat(imageWidth), CGFloat(imageHeight)))
+    func getImageView(image: UIImage) -> CustomImageView {
+        let imageView = CustomImageView(frame: CGRectMake(0.0, CGFloat(-imageHeight), CGFloat(imageWidth), CGFloat(imageHeight)))
         imageView.image = image
-        imageView.layer.cornerRadius = 3.0
+//        imageView.layer.cornerRadius = 3.0
         imageView.layer.backgroundColor = UIColor.whiteColor().CGColor
-        imageView.layer.borderWidth = 3.0
+        imageView.layer.borderWidth = 2.0
         imageView.layer.borderColor = UIColor.whiteColor().CGColor
         imageView.backgroundColor = UIColor.clearColor()
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
@@ -147,7 +148,7 @@ class ViewController: UIViewController {
         UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
             //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
             imageView.center = self.bottomCenterPoint
-            }) { (finished) -> Void in
+        }) { (finished) -> Void in
                 self.spinned++
         }
     }
@@ -160,15 +161,16 @@ class ViewController: UIViewController {
         isAnimating = false
         
         let imageView1 = getNextImageView()
-        let endPos1 = CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight))
+        let endPos1 = CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight) + 2)
         setStartPos(imageView1)
         
         let imageView2 = getNextImageView()
         let endPos2 = CGPointMake(self.view.center.x, self.view.center.y)
         setStartPos(imageView2)
+        createOverlay(imageView2)
         
         let imageView3 = getNextImageView()
-        let endPos3 = CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight))
+        let endPos3 = CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight) - 2)
         setStartPos(imageView3)
         
         typealias Tuple = (imageView: UIImageView, endPos: CGPoint, duration: CGFloat)
@@ -176,7 +178,6 @@ class ViewController: UIViewController {
             (imageView3, endPos3, self.animationDuration / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos3.y)),
             (imageView2, endPos2, self.animationDuration / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos2.y)),
             (imageView1, endPos1, self.animationDuration / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos1.y))
-            
         ]
         
         var index = 0
@@ -185,7 +186,7 @@ class ViewController: UIViewController {
             UIView.animateWithDuration(Double(imageMeta.duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
                 //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
                 imageMeta.imageView.center = imageMeta.endPos
-                }) { (finished) -> Void in
+            }) { (finished) -> Void in
                     
             }
         }
@@ -199,14 +200,14 @@ class ViewController: UIViewController {
             
             UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
                 imageMeta.imageView.center.y = endPosY
-                }) { (finished) -> Void in
-                    if imageMeta.endPos.y > self.firstAnimationCenterPoint.y {
-                        secondAnim(imageMeta)
-                    }
-                    index++
-                    if index < finishImages.count {
-                        firstAnim(finishImages[index])
-                    }
+            }) { (finished) -> Void in
+                if imageMeta.endPos.y > self.firstAnimationCenterPoint.y {
+                    secondAnim(imageMeta)
+                }
+                index++
+                if index < finishImages.count {
+                    firstAnim(finishImages[index])
+                }
             }
         }
         
@@ -227,11 +228,39 @@ class ViewController: UIViewController {
         return self.view.frame.size.height + CGFloat(imageHeight)
     }
     
-    func getNextImageView() -> UIImageView {
+    func getNextImageView() -> CustomImageView {
         let imageView = images[currentImageIndex]
         currentImageIndex++
         currentImageIndex = currentImageIndex%(images.count - 1)
         return imageView
+    }
+    
+    func createOverlay(imageView: CustomImageView) {
+        let height = CGFloat(23)
+        let label = UILabel(frame: CGRectMake(3, imageView.frame.size.height - height, imageView.frame.size.width, 20))
+//        label.backgroundColor = UIColor.blackColor()
+        label.textColor = UIColor.whiteColor()
+        print("IS LOCATION SET?? \(imageView.asset), \(imageView.asset?.location)")
+        
+        let date = imageView.asset?.creationDate?.toString("yyyy-MM-dd") ?? ""
+        
+        if let location = imageView.asset?.location {
+            print("IS LOCATION SET??")
+            
+            LocationService.getLocationAddress(location) { (address) -> Void in
+                label.text = "\(address), \(date)"
+            }
+        } else {
+            label.text = "\(date)"
+        }
+        
+        let width = CGFloat(45)
+        let image = UIImageView(frame: CGRectMake(imageView.frame.size.width - width, imageView.frame.size.height - 40, width - 5, width - 5))
+        image.image = UIImage(named: "bullet")
+        image.contentMode = UIViewContentMode.ScaleAspectFit
+
+        imageView.addSubview(label)
+        imageView.addSubview(image)
     }
     
     func cleanUp() {
@@ -305,3 +334,10 @@ class ViewController: UIViewController {
     }
 }
 
+extension NSDate {
+    func toString(format: String) -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.stringFromDate(self)
+    }
+}
