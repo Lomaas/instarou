@@ -96,7 +96,14 @@ class MainViewController: UIViewController {
     }
     
     func getImageView(image: UIImage) -> CustomImageView {
-        let imageView = CustomImageView(frame: CGRectMake(0, 0, CGFloat(imageWidth), CGFloat(imageHeight)))
+        let nib = NSBundle.mainBundle().loadNibNamed("CustomImageView", owner: self, options: nil)
+        let imageView = nib[0] as! CustomImageView
+        imageView.frame = CGRectMake(0, 0, CGFloat(imageWidth), CGFloat(imageHeight))
+        imageView.instaRouletteLabel.text = ""
+        
+//        let imageView = CustomImageView(frame: CGRectMake(0, 0, CGFloat(imageWidth), CGFloat(imageHeight)))
+        
+        
         setStartPosForImageView(imageView)
         imageView.image = image
 //        imageView.layer.cornerRadius = 3.0

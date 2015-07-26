@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		680877511B65311D000F32C6 /* CustomImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 680877501B65311D000F32C6 /* CustomImageView.xib */; };
 		855513011B3B429F00970570 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855513001B3B429F00970570 /* LocationService.swift */; };
 		855513031B3B438D00970570 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 855513021B3B438D00970570 /* CoreLocation.framework */; };
 		855513051B3B469E00970570 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855513041B3B469E00970570 /* CustomImageView.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		680877501B65311D000F32C6 /* CustomImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomImageView.xib; sourceTree = "<group>"; };
 		855513001B3B429F00970570 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		855513021B3B438D00970570 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		855513041B3B469E00970570 /* CustomImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				857C170F1B1F7CBA00E278FD /* AppDelegate.swift */,
 				855513041B3B469E00970570 /* CustomImageView.swift */,
 				857C17111B1F7CBA00E278FD /* MainViewController.swift */,
+				680877501B65311D000F32C6 /* CustomImageView.xib */,
 				859E2B271B405ED100BF1652 /* AnimationImageView.swift */,
 				855513001B3B429F00970570 /* LocationService.swift */,
 				857C17131B1F7CBA00E278FD /* Main.storyboard */,
@@ -212,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				857C17151B1F7CBA00E278FD /* Main.storyboard in Resources */,
+				680877511B65311D000F32C6 /* CustomImageView.xib in Resources */,
 				857C171A1B1F7CBA00E278FD /* LaunchScreen.xib in Resources */,
 				857C17171B1F7CBA00E278FD /* Images.xcassets in Resources */,
 			);

@@ -11,7 +11,7 @@ import Photos
 import AssetsLibrary
 
 class CustomImageView: UIImageView {
+    @IBOutlet weak var instaRouletteLabel: UILabel!
+    
     var asset: PHAsset?
-    
-    
 }
