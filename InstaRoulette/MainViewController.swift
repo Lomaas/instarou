@@ -15,29 +15,30 @@ func random(range: Range<UInt32>) -> UInt32 {
     return range.startIndex + arc4random_uniform(range.endIndex - range.startIndex + 1)
 }
 
-class ViewController: UIViewController {
+protocol AnimationFromTopToBottomDelegate {
+    func animateNextImage()
+    func animationFinished()
+}
+
+
+class MainViewController: UIViewController {
     var assets = [PHAsset]()
     
-    var firstAnimationCenterPoint: CGPoint!
-    var startFrameOrigin: CGPoint!
-    var endCenterPoint: CGPoint!
-    var bottomCenterPoint: CGPoint!
-    
-    let velocity = 50
     let maxSpinTimes = Int(random(7...19))
     let maxImagesInMemory = 25
+    let imageHeight = 250.0
+    let imageWidth = 250.0
     
     var spinned = 0
     
     var hasFetchedAssets = false
     var isAnimating = false
-    let imageHeight = 250.0
-    let imageWidth = 250.0
     
     var images = [CustomImageView]()
     var currentImageIndex = 0
     
     @IBOutlet weak var spinButton: UIButton!
+    
     @IBAction func didPressInstaRoulette(sender: AnyObject) {
         // TODO: Fix this bug when first run
         if hasFetchedAssets == false {
@@ -102,10 +103,7 @@ class ViewController: UIViewController {
         
         isAnimating = true
         spinned = 0
-        
-        firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
-        endCenterPoint = CGPointMake(view.center.x, view.frame.size.height/2)
-        bottomCenterPoint = CGPointMake(view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
+
         animateNextImage()
     }
     
@@ -114,104 +112,77 @@ class ViewController: UIViewController {
             animateFinish()
             return
         }
+        
+        let firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
+        let endCenterPoint = CGPointMake(view.center.x, view.frame.size.height/2)
+        let bottomCenterPoint = CGPointMake(view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
+        
         let imageView = getNextImageView()
-        setStartPos(imageView)
-        animateFirstPart(imageView)
+        
+        let animationUtil = AnimationUtil(imageView: imageView, velocity: 1500, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, startFrameOrigin: getStartPos(), endCenterPoint: endCenterPoint, bottomCenterPoint: bottomCenterPoint)
+        
+        animationUtil.animateFirstPart()
     }
     
-    func animateFirstPart(imageView: UIImageView) {
-        let duration = animationDuration / (getTotalHeight() / imageView.frame.height)
-        
-        UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            //            imageView.transform = CGAffineTransformMakeTranslation(0, self.firstAnimationCenterPoint.y - imageView.center.y)
-            imageView.center = self.firstAnimationCenterPoint
-            }) { (finished) -> Void in
-                self.animateNextImage()
-                self.animateSecondPart(imageView, firstAnimDuration: duration)
-        }
-    }
-    
-    func animateSecondPart(imageView: UIImageView, firstAnimDuration: CGFloat) {
-        let duration = animationDuration - firstAnimDuration
-        
-        UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
-            imageView.center = self.bottomCenterPoint
-            }) { (finished) -> Void in
-                self.spinned++
-        }
-    }
-    
-    func animateSecondPartOfFinish(imageView: UIImageView, firstAnimDuration: CGFloat) {
-        let duration = animationDuration - firstAnimDuration
-        
-        UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
-            imageView.center = self.bottomCenterPoint
-        }) { (finished) -> Void in
-                self.spinned++
-        }
-    }
+
     
     func animateFinish() {
         if isAnimating == false {
             return
         }
         
-        isAnimating = false
+//        isAnimating = false
+//        
+//        let imageView1 = getNextImageView()
+//        let endPos1 = CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight) + 2)
+//        setStartPos(imageView1)
+//        
+//        let imageView2 = getNextImageView()
+//        let endPos2 = CGPointMake(self.view.center.x, self.view.center.y)
+//        setStartPos(imageView2)
+//        createOverlay(imageView2)
+//        
+//        let imageView3 = getNextImageView()
+//        let endPos3 = CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight) - 2)
+//        setStartPos(imageView3)
+//        
+//        typealias Tuple = (imageView: UIImageView, endPos: CGPoint, duration: CGFloat)
+//        let finishImages: [Tuple] = [
+//            (imageView3, endPos3, 1.0 / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos3.y)),
+//            (imageView2, endPos2, 1.0 / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos2.y)),
+//            (imageView1, endPos1, 1.0 / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos1.y))
+//        ]
+//        
+//        var index = 0
+//        
+//        func secondAnim(imageMeta: Tuple) {
+//            UIView.animateWithDuration(Double(imageMeta.duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+//                //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
+//                imageMeta.imageView.center = imageMeta.endPos
+//            }) { (finished) -> Void in
+//                    
+//            }
+//        }
+//        
+//        func firstAnim(imageMeta: Tuple) {
+//            let endPosY = imageMeta.endPos.y < self.firstAnimationCenterPoint.y ? imageMeta.endPos.y : self.firstAnimationCenterPoint.y
+//            
+//            let duration = 1.0 / (self.getTotalHeight() / CGFloat(self.imageHeight))
+//            
+//            UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+//                imageMeta.imageView.center.y = endPosY
+//            }) { (finished) -> Void in
+//                if imageMeta.endPos.y > self.firstAnimationCenterPoint.y {
+//                    secondAnim(imageMeta)
+//                }
+//                index++
+//                if index < finishImages.count {
+//                    firstAnim(finishImages[index])
+//                }
+//            }
+//        }
         
-        let imageView1 = getNextImageView()
-        let endPos1 = CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight) + 2)
-        setStartPos(imageView1)
-        
-        let imageView2 = getNextImageView()
-        let endPos2 = CGPointMake(self.view.center.x, self.view.center.y)
-        setStartPos(imageView2)
-        createOverlay(imageView2)
-        
-        let imageView3 = getNextImageView()
-        let endPos3 = CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight) - 2)
-        setStartPos(imageView3)
-        
-        typealias Tuple = (imageView: UIImageView, endPos: CGPoint, duration: CGFloat)
-        let finishImages: [Tuple] = [
-            (imageView3, endPos3, self.animationDuration / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos3.y)),
-            (imageView2, endPos2, self.animationDuration / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos2.y)),
-            (imageView1, endPos1, self.animationDuration / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos1.y))
-        ]
-        
-        var index = 0
-        
-        func secondAnim(imageMeta: Tuple) {
-            UIView.animateWithDuration(Double(imageMeta.duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
-                imageMeta.imageView.center = imageMeta.endPos
-            }) { (finished) -> Void in
-                    
-            }
-        }
-        
-        func firstAnim(imageMeta: Tuple) {
-            let endPosY = imageMeta.endPos.y < self.firstAnimationCenterPoint.y ? imageMeta.endPos.y : self.firstAnimationCenterPoint.y
-            
-            let duration = self.animationDuration / (self.getTotalHeight() / CGFloat(self.imageHeight))
-            
-            
-            
-            UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-                imageMeta.imageView.center.y = endPosY
-            }) { (finished) -> Void in
-                if imageMeta.endPos.y > self.firstAnimationCenterPoint.y {
-                    secondAnim(imageMeta)
-                }
-                index++
-                if index < finishImages.count {
-                    firstAnim(finishImages[index])
-                }
-            }
-        }
-        
-        firstAnim(finishImages[index])
+//        firstAnim(finishImages[index])
         //        UIView.animateWithDuration(Double(animationDuration), animations: { () -> Void in
         //            imageView.center = self.endpos1
         //        }) { (finished) -> Void in
@@ -219,9 +190,8 @@ class ViewController: UIViewController {
         //        }
     }
     
-    func setStartPos(imageView: UIImageView) {
-        imageView.center.y = -CGFloat(imageHeight/2)
-        imageView.center.x = self.view.center.x
+    func getStartPos(imageView: UIImageView) -> CGPoint {
+        return CGPointMake(self.view.center.x, -CGFloat(imageHeight/2))
     }
     
     func getTotalHeight() -> CGFloat {
@@ -331,6 +301,12 @@ class ViewController: UIViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         presentViewController(alert, animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: AnimationFromTopToBottomDelegate {
+    func animationFinished() {
+        self.spinned++
     }
 }
 

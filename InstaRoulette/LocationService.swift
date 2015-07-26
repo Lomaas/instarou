@@ -16,7 +16,7 @@ struct LocationService {
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { (placemarkArray, error) -> Void in
             if let placemark = placemarkArray?.last {
-                successHandler(address: placemark.name)
+                successHandler(address: placemark.name!)
             } else {
                 successHandler(address: "Unknown")
             }
