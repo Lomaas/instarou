@@ -23,13 +23,13 @@ protocol AnimationFromTopToBottomDelegate {
 
 class MainViewController: UIViewController {
     var assets = [PHAsset]()
-    let maxSpinTimes = Int(random(20...25))
+    let maxSpinTimes = Int(random(7...19))
     let maxImagesInMemory = 25
     let imageHeight = 275.0
     let imageWidth = 275.0
-    var velocity = CGFloat(2000)
+    let velocity = CGFloat(2000)
     var spinned = 0
-    var secondPhaseSpinning: Int!
+    
     var finishAnimationCounter = 0
     lazy var finishAnimationEndPointsArray = [CGPoint]()
     var firstAnimationCenterPoint: CGPoint!
@@ -81,7 +81,6 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        secondPhaseSpinning = maxSpinTimes - 10
         finishAnimationEndPointsArray = [
             CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight)),
             CGPointMake(self.view.center.x, self.view.center.y),
@@ -267,11 +266,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController: AnimationFromTopToBottomDelegate {
     func animateNextImage() {
-        
-        if spinned >= secondPhaseSpinning {
-            velocity -= 200
-        }
-        else if spinned >= maxSpinTimes {
+        if spinned >= maxSpinTimes {
             animateFinish()
             return
         }
