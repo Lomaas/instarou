@@ -23,28 +23,23 @@ class AnimationImageView {
         self.imageView.center.y = startFrameOrigin.y
     }
     
-    func getDurationFirstPart() -> CGFloat {
-        return imageView.frame.height / CGFloat(velocity)
+    func getDurationFirstPart() -> Double {
+        return Double(imageView.frame.height / CGFloat(velocity))
     }
     
-    func getDurationSecondPart() -> CGFloat {
-        return (totalHeight - imageView.frame.height) / CGFloat(velocity)
+    func getDurationSecondPart() -> Double {
+        return Double((totalHeight - imageView.frame.height) / CGFloat(velocity))
     }
     
     func animateFirstPart() {
-        let duration = getDurationFirstPart()
-        
-        doAnimation(Double(duration), endPoint: firstAnimationCenterPoint) { (finished) -> Void in
-            
+        doAnimation(getDurationFirstPart(), endPoint: firstAnimationCenterPoint) { (finished) -> Void in
             self.delegate?.animateNextImage()
-            self.animateSecondPart(duration)
+            self.animateSecondPart()
         }
     }
     
-    func animateSecondPart(firstAnimDuration: CGFloat) {
-        let duration = getDurationSecondPart()
-        
-        doAnimation(Double(duration), endPoint: bottomCenterPoint) { (finished) -> Void in
+    func animateSecondPart() {
+        doAnimation(getDurationSecondPart(), endPoint: bottomCenterPoint) { (finished) -> Void in
             self.delegate?.animationFinished()
         }
     }

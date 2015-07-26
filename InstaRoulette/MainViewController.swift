@@ -23,16 +23,16 @@ protocol AnimationFromTopToBottomDelegate {
 
 class MainViewController: UIViewController {
     var assets = [PHAsset]()
-    
     let maxSpinTimes = Int(random(7...19))
     let maxImagesInMemory = 25
-    let imageHeight = 250.0
-    let imageWidth = 250.0
-    
+    let imageHeight = 275.0
+    let imageWidth = 275.0
+    let velocity = CGFloat(2000)
     var spinned = 0
     
     var finishAnimationCounter = 0
     lazy var finishAnimationEndPointsArray = [CGPoint]()
+    var firstAnimationCenterPoint: CGPoint!
     
     var hasFetchedAssets = false
     var isAnimating = false
@@ -82,11 +82,11 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         finishAnimationEndPointsArray = [
-            CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight) - 2),
+            CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight)),
             CGPointMake(self.view.center.x, self.view.center.y),
-            CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight) + 2)
+            CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight))
         ]
-        
+        firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
         fetchAssets()
     }
     
@@ -96,12 +96,12 @@ class MainViewController: UIViewController {
     }
     
     func getImageView(image: UIImage) -> CustomImageView {
-        let imageView = CustomImageView(frame: CGRectMake(0.0, CGFloat(-imageHeight), CGFloat(imageWidth), CGFloat(imageHeight)))
+        let imageView = CustomImageView(frame: CGRectMake(0, 0, CGFloat(imageWidth), CGFloat(imageHeight)))
         imageView.image = image
 //        imageView.layer.cornerRadius = 3.0
         imageView.layer.backgroundColor = UIColor.whiteColor().CGColor
-        imageView.layer.borderWidth = 2.0
-        imageView.layer.borderColor = UIColor.whiteColor().CGColor
+//        imageView.layer.borderWidth = 2.0
+//        imageView.layer.borderColor = UIColor.whiteColor().CGColor
         imageView.backgroundColor = UIColor.clearColor()
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
         imageView.clipsToBounds = true
@@ -113,6 +113,7 @@ class MainViewController: UIViewController {
         
         isAnimating = true
         spinned = 0
+        finishAnimationCounter = 0
 
         animateNextImage()
     }
@@ -123,81 +124,32 @@ class MainViewController: UIViewController {
         }
         
         if finishAnimationCounter >= finishAnimationEndPointsArray.count {
+            isAnimating = false
             return
         }
         
-        let firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
-        
+        var firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
         let imageView1 = getNextImageView()
+        
+        let bottomCenterPoint = finishAnimationEndPointsArray[finishAnimationCounter];
+        if firstAnimationCenterPoint.y >= bottomCenterPoint.y {
+            firstAnimationCenterPoint = bottomCenterPoint
+        }
 
         let animationImageView1 = AnimationImageView(imageView: imageView1,
-            velocity: 1500,
+            velocity: velocity,
             totalHeight: self.getTotalHeight(),
             firstAnimationCenterPoint: firstAnimationCenterPoint,
             startFrameOrigin: getStartPos(imageView1),
-            bottomCenterPoint: finishAnimationEndPointsArray[finishAnimationCounter]
+            bottomCenterPoint: bottomCenterPoint
         )
+        
         finishAnimationCounter++
         animationImageView1.delegate = self
         animationImageView1.animateFirstPart()
         
-//        isAnimating = false
-//        
-//        let imageView1 = getNextImageView()
-//        let endPos1 = CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight) + 2)
-//        setStartPos(imageView1)
-//        
-//        let imageView2 = getNextImageView()
-//        let endPos2 = CGPointMake(self.view.center.x, self.view.center.y)
-//        setStartPos(imageView2)
-//        createOverlay(imageView2)
-//        
-//        let imageView3 = getNextImageView()
-//        let endPos3 = CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight) - 2)
-//        setStartPos(imageView3)
-//        
-//        typealias Tuple = (imageView: UIImageView, endPos: CGPoint, duration: CGFloat)
-//        let finishImages: [Tuple] = [
-//            (imageView3, endPos3, 1.0 / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos3.y)),
-//            (imageView2, endPos2, 1.0 / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos2.y)),
-//            (imageView1, endPos1, 1.0 / ((self.getTotalHeight() - CGFloat(imageHeight)) / endPos1.y))
-//        ]
-//        
-//        var index = 0
-//        
-//        func secondAnim(imageMeta: Tuple) {
-//            UIView.animateWithDuration(Double(imageMeta.duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-//                //            imageView.transform = CGAffineTransformMakeTranslation(0, self.bottomCenterPoint.y - imageView.center.y)
-//                imageMeta.imageView.center = imageMeta.endPos
-//            }) { (finished) -> Void in
-//                    
-//            }
-//        }
-//        
-//        func firstAnim(imageMeta: Tuple) {
-//            let endPosY = imageMeta.endPos.y < self.firstAnimationCenterPoint.y ? imageMeta.endPos.y : self.firstAnimationCenterPoint.y
-//            
-//            let duration = 1.0 / (self.getTotalHeight() / CGFloat(self.imageHeight))
-//            
-//            UIView.animateWithDuration(Double(duration), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-//                imageMeta.imageView.center.y = endPosY
-//            }) { (finished) -> Void in
-//                if imageMeta.endPos.y > self.firstAnimationCenterPoint.y {
-//                    secondAnim(imageMeta)
-//                }
-//                index++
-//                if index < finishImages.count {
-//                    firstAnim(finishImages[index])
-//                }
-//            }
-//        }
-        
-//        firstAnim(finishImages[index])
-        //        UIView.animateWithDuration(Double(animationDuration), animations: { () -> Void in
-        //            imageView.center = self.endpos1
-        //        }) { (finished) -> Void in
-        //            self.storeImage(imageView.image!)
-        //        }
+        // Store image when animation is done
+        // self.storeImage(imageView.image!)
     }
     
     func getStartPos(imageView: UIImageView) -> CGPoint {
@@ -272,7 +224,6 @@ class MainViewController: UIViewController {
             options: initialRequestOptions) { (result, _) in
                 if let res: UIImage = result {
                     successHandler?(image: res)
-                    //                    self.storeImage(res)
                 } else {
                     self.presentAlertView("Error", message: "An error occured while fetching the random photo")
                 }
@@ -313,12 +264,10 @@ extension MainViewController: AnimationFromTopToBottomDelegate {
             return
         }
         
-        let firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
         let bottomCenterPoint = CGPointMake(view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
-        
         let imageView = getNextImageView()
         
-        let animationImageView = AnimationImageView(imageView: imageView, velocity: 1500, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, startFrameOrigin: getStartPos(imageView), bottomCenterPoint: bottomCenterPoint)
+        let animationImageView = AnimationImageView(imageView: imageView, velocity: velocity, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, startFrameOrigin: getStartPos(imageView), bottomCenterPoint: bottomCenterPoint)
         animationImageView.delegate = self
         animationImageView.animateFirstPart()
     }
