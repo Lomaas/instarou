@@ -25,43 +25,43 @@ class AnimationUtil {
         self.imageView.center.y = startFrameOrigin.y
     }
     
-    func getDurationFirstPart(imageView: UIImageView) -> CGFloat {
+    func getDurationFirstPart() -> CGFloat {
         return imageView.frame.height / CGFloat(velocity)
     }
     
-    func getDurationSecondPart(imageView: UIImageView) -> CGFloat {
+    func getDurationSecondPart() -> CGFloat {
         return (totalHeight - imageView.frame.height) / CGFloat(velocity)
     }
     
-    func animateFirstPart(imageView: UIImageView) {
-        let duration = getDurationFirstPart(imageView)
+    func animateFirstPart() {
+        let duration = getDurationFirstPart()
         
-        doAnimation(imageView, duration: Double(duration), endPoint: firstAnimationCenterPoint) { (finished) -> Void in
+        doAnimation(Double(duration), endPoint: firstAnimationCenterPoint) { (finished) -> Void in
             
             self.delegate?.animateNextImage()
-            self.animateSecondPart(imageView, firstAnimDuration: duration)
+            self.animateSecondPart(duration)
         }
     }
     
-    func animateSecondPart(imageView: UIImageView, firstAnimDuration: CGFloat) {
-        let duration = getDurationSecondPart(imageView)
+    func animateSecondPart(firstAnimDuration: CGFloat) {
+        let duration = getDurationSecondPart()
         
-        doAnimation(imageView, duration: Double(duration), endPoint: bottomCenterPoint) { (finished) -> Void in
+        doAnimation(Double(duration), endPoint: bottomCenterPoint) { (finished) -> Void in
             self.delegate?.animationFinished()
         }
     }
     
-    func animateSecondPartOfFinish(imageView: UIImageView, firstAnimDuration: CGFloat) {
+    func animateSecondPartOfFinish(firstAnimDuration: CGFloat) {
         let duration = 1.0 - firstAnimDuration
         
-        doAnimation(imageView, duration: Double(duration), endPoint: bottomCenterPoint) { (finished) -> Void in
+        doAnimation(Double(duration), endPoint: bottomCenterPoint) { (finished) -> Void in
             self.delegate?.animationFinished()
         }
     }
     
-    func doAnimation(imageView: UIImageView, duration: Double, endPoint: CGPoint, completionHandler: (finished: Bool) -> Void) {
+    func doAnimation(duration: Double, endPoint: CGPoint, completionHandler: (finished: Bool) -> Void) {
         UIView.animateWithDuration(duration, delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            imageView.center = endPoint
+            self.imageView.center = endPoint
         }) { (finished) -> Void in
             completionHandler(finished: finished)
         }

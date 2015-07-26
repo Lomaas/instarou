@@ -56,19 +56,20 @@ class MainViewController: UIViewController {
         }
         cleanUp()
         
-        var done = 0    // Todo refactor to use async lib
+        var counter = 0    // Todo refactor to use async lib
         assets.shuffle()
+        
         let count = assets.count > maxImagesInMemory ? maxImagesInMemory : assets.count - 1
         
         for index in 0...count {
             self.getImageFromAsset(assets[index]) { (image) -> Void in
-                done++
+                counter++
                 let imageView = self.getImageView(image)
                 imageView.asset = self.assets[index]
                 self.view.insertSubview(imageView, belowSubview: self.spinButton)
                 self.images.append(imageView)
                 
-                if done > self.maxImagesInMemory {
+                if counter > count {
                     self.configureAndStartAnimation()
                 }
             }
@@ -119,12 +120,10 @@ class MainViewController: UIViewController {
         
         let imageView = getNextImageView()
         
-        let animationUtil = AnimationUtil(imageView: imageView, velocity: 1500, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, startFrameOrigin: getStartPos(), endCenterPoint: endCenterPoint, bottomCenterPoint: bottomCenterPoint)
-        
+        let animationUtil = AnimationUtil(imageView: imageView, velocity: 1500, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, startFrameOrigin: getStartPos(imageView), endCenterPoint: endCenterPoint, bottomCenterPoint: bottomCenterPoint)
+        animationUtil.delegate = self
         animationUtil.animateFirstPart()
     }
-    
-
     
     func animateFinish() {
         if isAnimating == false {
