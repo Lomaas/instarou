@@ -23,13 +23,13 @@ protocol AnimationFromTopToBottomDelegate {
 
 class MainViewController: UIViewController {
     var assets = [PHAsset]()
-    let maxSpinTimes = Int(random(7...19))
+    let maxSpinTimes = Int(random(20...25))
     let maxImagesInMemory = 25
     let imageHeight = 275.0
     let imageWidth = 275.0
-    let velocity = CGFloat(2000)
+    var velocity = CGFloat(2000)
     var spinned = 0
-    
+    var secondPhaseSpinning: Int!
     var finishAnimationCounter = 0
     lazy var finishAnimationEndPointsArray = [CGPoint]()
     var firstAnimationCenterPoint: CGPoint!
@@ -81,6 +81,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        secondPhaseSpinning = maxSpinTimes - 10
         finishAnimationEndPointsArray = [
             CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight)),
             CGPointMake(self.view.center.x, self.view.center.y),
@@ -128,18 +129,28 @@ class MainViewController: UIViewController {
             isAnimating = false
             return
         }
-        
         let imageView1 = getNextImageView()
         setStartPosForImageView(imageView1)
         let bottomCenterPoint = finishAnimationEndPointsArray[finishAnimationCounter];
 
-        let animationImageView1 = AnimationImageView(imageView: imageView1,
-            velocity: velocity,
-            totalHeight: self.getTotalHeight(),
-            firstAnimationCenterPoint: bottomCenterPoint,
-            bottomCenterPoint: bottomCenterPoint,
-            shouldAnimateSecondPart: true
-        )
+        let animationImageView1: AnimationImageView
+        if finishAnimationCounter == finishAnimationEndPointsArray.count - 1 {
+            animationImageView1 = AnimationImageView(imageView: imageView1,
+                velocity: velocity,
+                totalHeight: getTotalHeight(),
+                firstAnimationCenterPoint: bottomCenterPoint,
+                bottomCenterPoint: bottomCenterPoint,
+                shouldAnimateSecondPart: false
+            )
+        } else {
+            animationImageView1 = AnimationImageView(imageView: imageView1,
+                velocity: velocity,
+                totalHeight: getTotalHeight(),
+                firstAnimationCenterPoint: firstAnimationCenterPoint,
+                bottomCenterPoint: bottomCenterPoint,
+                shouldAnimateSecondPart: true
+            )
+        }
         
         finishAnimationCounter++
         animationImageView1.delegate = self
@@ -256,16 +267,27 @@ class MainViewController: UIViewController {
 
 extension MainViewController: AnimationFromTopToBottomDelegate {
     func animateNextImage() {
-        if spinned >= maxSpinTimes {
+        
+        if spinned >= secondPhaseSpinning {
+            velocity -= 200
+        }
+        else if spinned >= maxSpinTimes {
             animateFinish()
             return
         }
         
         let bottomCenterPoint = CGPointMake(view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
         let imageView = getNextImageView()
+        setStartPosForImageView(imageView)
         
-        let animationImageView = AnimationImageView(imageView: imageView, velocity: velocity, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, bottomCenterPoint: bottomCenterPoint,
-        shouldAnimateSecondPart: true)
+        let animationImageView = AnimationImageView(imageView: imageView,
+            velocity: velocity,
+            totalHeight: self.getTotalHeight(),
+            firstAnimationCenterPoint:
+            firstAnimationCenterPoint,
+            bottomCenterPoint: bottomCenterPoint,
+            shouldAnimateSecondPart: true
+        )
         animationImageView.delegate = self
         animationImageView.animateFirstPart()
     }

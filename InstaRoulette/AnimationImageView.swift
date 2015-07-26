@@ -20,18 +20,22 @@ class AnimationImageView {
     }
     
     func getDurationFirstPart() -> Double {
-        return Double(imageView.frame.height / CGFloat(velocity))
+        print("Velocity: \(velocity)")
+        return Double((firstAnimationCenterPoint.y + imageView.frame.height/2) / CGFloat(velocity))
     }
     
     func getDurationSecondPart() -> Double {
-        return Double((totalHeight - imageView.frame.height) / CGFloat(velocity))
+        return Double((bottomCenterPoint.y - imageView.frame.height/2) / CGFloat(velocity))
     }
     
     func animateFirstPart() {
         doAnimation(getDurationFirstPart(), endPoint: firstAnimationCenterPoint) { (finished) -> Void in
             self.delegate?.animateNextImage()
+            
             if self.shouldAnimateSecondPart {
                 self.animateSecondPart()
+            } else {
+                self.delegate?.animationFinished()
             }
         }
     }
