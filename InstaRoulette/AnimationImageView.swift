@@ -5,22 +5,18 @@ class AnimationImageView {
     let velocity: CGFloat
     let totalHeight: CGFloat
     let firstAnimationCenterPoint: CGPoint!
-    let startFrameOrigin: CGPoint!
     let bottomCenterPoint: CGPoint!
     let imageView: UIImageView
-    
+    let shouldAnimateSecondPart: Bool
     var delegate: AnimationFromTopToBottomDelegate?
     
-    init(imageView: UIImageView, velocity: CGFloat, totalHeight: CGFloat, firstAnimationCenterPoint: CGPoint, startFrameOrigin: CGPoint, bottomCenterPoint: CGPoint) {
+    init(imageView: UIImageView, velocity: CGFloat, totalHeight: CGFloat, firstAnimationCenterPoint: CGPoint, bottomCenterPoint: CGPoint, shouldAnimateSecondPart: Bool) {
         self.velocity = velocity
         self.totalHeight = totalHeight
         self.firstAnimationCenterPoint = firstAnimationCenterPoint
-        self.startFrameOrigin = startFrameOrigin
         self.bottomCenterPoint = bottomCenterPoint
         self.imageView = imageView
-        
-        self.imageView.center.x = startFrameOrigin.x
-        self.imageView.center.y = startFrameOrigin.y
+        self.shouldAnimateSecondPart = shouldAnimateSecondPart
     }
     
     func getDurationFirstPart() -> Double {
@@ -34,7 +30,9 @@ class AnimationImageView {
     func animateFirstPart() {
         doAnimation(getDurationFirstPart(), endPoint: firstAnimationCenterPoint) { (finished) -> Void in
             self.delegate?.animateNextImage()
-            self.animateSecondPart()
+            if self.shouldAnimateSecondPart {
+                self.animateSecondPart()
+            }
         }
     }
     

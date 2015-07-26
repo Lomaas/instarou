@@ -97,6 +97,7 @@ class MainViewController: UIViewController {
     
     func getImageView(image: UIImage) -> CustomImageView {
         let imageView = CustomImageView(frame: CGRectMake(0, 0, CGFloat(imageWidth), CGFloat(imageHeight)))
+        setStartPosForImageView(imageView)
         imageView.image = image
 //        imageView.layer.cornerRadius = 3.0
         imageView.layer.backgroundColor = UIColor.whiteColor().CGColor
@@ -128,20 +129,16 @@ class MainViewController: UIViewController {
             return
         }
         
-        var firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
         let imageView1 = getNextImageView()
-        
+        setStartPosForImageView(imageView1)
         let bottomCenterPoint = finishAnimationEndPointsArray[finishAnimationCounter];
-        if firstAnimationCenterPoint.y >= bottomCenterPoint.y {
-            firstAnimationCenterPoint = bottomCenterPoint
-        }
 
         let animationImageView1 = AnimationImageView(imageView: imageView1,
             velocity: velocity,
             totalHeight: self.getTotalHeight(),
-            firstAnimationCenterPoint: firstAnimationCenterPoint,
-            startFrameOrigin: getStartPos(imageView1),
-            bottomCenterPoint: bottomCenterPoint
+            firstAnimationCenterPoint: bottomCenterPoint,
+            bottomCenterPoint: bottomCenterPoint,
+            shouldAnimateSecondPart: true
         )
         
         finishAnimationCounter++
@@ -152,8 +149,8 @@ class MainViewController: UIViewController {
         // self.storeImage(imageView.image!)
     }
     
-    func getStartPos(imageView: UIImageView) -> CGPoint {
-        return CGPointMake(self.view.center.x, -CGFloat(imageHeight/2))
+    func setStartPosForImageView(imageView: UIImageView) {
+        imageView.center = CGPointMake(view.frame.width/2, -CGFloat(imageHeight/2))
     }
     
     func getTotalHeight() -> CGFloat {
@@ -267,7 +264,8 @@ extension MainViewController: AnimationFromTopToBottomDelegate {
         let bottomCenterPoint = CGPointMake(view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
         let imageView = getNextImageView()
         
-        let animationImageView = AnimationImageView(imageView: imageView, velocity: velocity, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, startFrameOrigin: getStartPos(imageView), bottomCenterPoint: bottomCenterPoint)
+        let animationImageView = AnimationImageView(imageView: imageView, velocity: velocity, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, bottomCenterPoint: bottomCenterPoint,
+        shouldAnimateSecondPart: true)
         animationImageView.delegate = self
         animationImageView.animateFirstPart()
     }
