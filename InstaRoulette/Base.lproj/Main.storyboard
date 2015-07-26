@@ -15,14 +15,14 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cool-hd-blurred" translatesAutoresizingMaskIntoConstraints="NO" id="2Vo-fq-osT">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="549"/>
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="549"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZbA-Ny-gA6">
-                                <rect key="frame" x="0.0" y="549" width="600" height="51"/>
+                                <rect key="frame" x="0.0" y="549" width="400" height="51"/>
                                 <color key="backgroundColor" red="0.0" green="0.81176470590000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="T5J-sN-lbT"/>
@@ -36,14 +36,14 @@
                                     <action selector="didPressInstaRoulette:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Tmv-hX-WVg"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CxB-GV-0ZY">
-                                <rect key="frame" x="0.0" y="269" width="33" height="64"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CxB-GV-0ZY">
+                                <rect key="frame" x="0.0" y="268" width="33" height="64"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="53"/>
                                 <color key="textColor" red="0.023529411760000001" green="0.54117647059999996" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="&lt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6p-Gd-e9y">
-                                <rect key="frame" x="567" y="269" width="33" height="64"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6p-Gd-e9y">
+                                <rect key="frame" x="367" y="268" width="33" height="64"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="53"/>
                                 <color key="textColor" red="0.023529411760000001" green="0.54117647059999996" blue="0.76078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -72,6 +72,8 @@
                             </mask>
                         </variation>
                     </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="400" height="600"/>
                     <connections>
                         <outlet property="spinButton" destination="ZbA-Ny-gA6" id="cjv-gw-ver"/>
                     </connections>
