@@ -31,6 +31,9 @@ class MainViewController: UIViewController {
     
     var spinned = 0
     
+    var finishAnimationCounter = 0
+    lazy var finishAnimationEndPointsArray = [CGPoint]()
+    
     var hasFetchedAssets = false
     var isAnimating = false
     
@@ -78,6 +81,12 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        finishAnimationEndPointsArray = [
+            CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight) - 2),
+            CGPointMake(self.view.center.x, self.view.center.y),
+            CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight) + 2)
+        ]
+        
         fetchAssets()
     }
     
@@ -107,28 +116,30 @@ class MainViewController: UIViewController {
 
         animateNextImage()
     }
-    
-    func animateNextImage() {
-        if spinned >= maxSpinTimes {
-            animateFinish()
-            return
-        }
-        
-        let firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
-        let endCenterPoint = CGPointMake(view.center.x, view.frame.size.height/2)
-        let bottomCenterPoint = CGPointMake(view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
-        
-        let imageView = getNextImageView()
-        
-        let animationUtil = AnimationUtil(imageView: imageView, velocity: 1500, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, startFrameOrigin: getStartPos(imageView), endCenterPoint: endCenterPoint, bottomCenterPoint: bottomCenterPoint)
-        animationUtil.delegate = self
-        animationUtil.animateFirstPart()
-    }
-    
+
     func animateFinish() {
         if isAnimating == false {
             return
         }
+        
+        if finishAnimationCounter >= finishAnimationEndPointsArray.count {
+            return
+        }
+        
+        let firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
+        
+        let imageView1 = getNextImageView()
+
+        let animationImageView1 = AnimationImageView(imageView: imageView1,
+            velocity: 1500,
+            totalHeight: self.getTotalHeight(),
+            firstAnimationCenterPoint: firstAnimationCenterPoint,
+            startFrameOrigin: getStartPos(imageView1),
+            bottomCenterPoint: finishAnimationEndPointsArray[finishAnimationCounter]
+        )
+        finishAnimationCounter++
+        animationImageView1.delegate = self
+        animationImageView1.animateFirstPart()
         
 //        isAnimating = false
 //        
@@ -207,15 +218,10 @@ class MainViewController: UIViewController {
     func createOverlay(imageView: CustomImageView) {
         let height = CGFloat(23)
         let label = UILabel(frame: CGRectMake(3, imageView.frame.size.height - height, imageView.frame.size.width, 20))
-//        label.backgroundColor = UIColor.blackColor()
         label.textColor = UIColor.whiteColor()
-        print("IS LOCATION SET?? \(imageView.asset), \(imageView.asset?.location)")
-        
         let date = imageView.asset?.creationDate?.toString("yyyy-MM-dd") ?? ""
         
         if let location = imageView.asset?.location {
-            print("IS LOCATION SET??")
-            
             LocationService.getLocationAddress(location) { (address) -> Void in
                 label.text = "\(address), \(date)"
             }
@@ -227,7 +233,6 @@ class MainViewController: UIViewController {
         let image = UIImageView(frame: CGRectMake(imageView.frame.size.width - width, imageView.frame.size.height - 40, width - 5, width - 5))
         image.image = UIImage(named: "bullet")
         image.contentMode = UIViewContentMode.ScaleAspectFit
-
         imageView.addSubview(label)
         imageView.addSubview(image)
     }
@@ -292,8 +297,6 @@ class MainViewController: UIViewController {
         if UIApplication.sharedApplication().canOpenURL(instagramURL) {
             UIApplication.sharedApplication().openURL(instagramURL)
         }
-        //            presentAlertView("Instagram app not found", message: "An Instagram app is required to be installed on your phone")
-        //        }
     }
     
     func presentAlertView(title: String, message: String) {
@@ -304,6 +307,22 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: AnimationFromTopToBottomDelegate {
+    func animateNextImage() {
+        if spinned >= maxSpinTimes {
+            animateFinish()
+            return
+        }
+        
+        let firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
+        let bottomCenterPoint = CGPointMake(view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
+        
+        let imageView = getNextImageView()
+        
+        let animationImageView = AnimationImageView(imageView: imageView, velocity: 1500, totalHeight: self.getTotalHeight(), firstAnimationCenterPoint: firstAnimationCenterPoint, startFrameOrigin: getStartPos(imageView), bottomCenterPoint: bottomCenterPoint)
+        animationImageView.delegate = self
+        animationImageView.animateFirstPart()
+    }
+    
     func animationFinished() {
         self.spinned++
     }

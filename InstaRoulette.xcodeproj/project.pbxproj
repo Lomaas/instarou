@@ -17,7 +17,7 @@
 		857C171A1B1F7CBA00E278FD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 857C17181B1F7CBA00E278FD /* LaunchScreen.xib */; };
 		857C17261B1F7CBA00E278FD /* InstaRouletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857C17251B1F7CBA00E278FD /* InstaRouletteTests.swift */; };
 		857C17301B1F7CC600E278FD /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 857C172F1B1F7CC600E278FD /* Photos.framework */; };
-		859E2B281B405ED100BF1652 /* AnimationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859E2B271B405ED100BF1652 /* AnimationUtil.swift */; };
+		859E2B281B405ED100BF1652 /* AnimationImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859E2B271B405ED100BF1652 /* AnimationImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +45,7 @@
 		857C17241B1F7CBA00E278FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		857C17251B1F7CBA00E278FD /* InstaRouletteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstaRouletteTests.swift; sourceTree = "<group>"; };
 		857C172F1B1F7CC600E278FD /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
-		859E2B271B405ED100BF1652 /* AnimationUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationUtil.swift; sourceTree = "<group>"; };
+		859E2B271B405ED100BF1652 /* AnimationImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +94,7 @@
 				857C170F1B1F7CBA00E278FD /* AppDelegate.swift */,
 				855513041B3B469E00970570 /* CustomImageView.swift */,
 				857C17111B1F7CBA00E278FD /* MainViewController.swift */,
-				859E2B271B405ED100BF1652 /* AnimationUtil.swift */,
+				859E2B271B405ED100BF1652 /* AnimationImageView.swift */,
 				855513001B3B429F00970570 /* LocationService.swift */,
 				857C17131B1F7CBA00E278FD /* Main.storyboard */,
 				857C17161B1F7CBA00E278FD /* Images.xcassets */,
@@ -235,7 +235,7 @@
 				855513051B3B469E00970570 /* CustomImageView.swift in Sources */,
 				855513011B3B429F00970570 /* LocationService.swift in Sources */,
 				857C17101B1F7CBA00E278FD /* AppDelegate.swift in Sources */,
-				859E2B281B405ED100BF1652 /* AnimationUtil.swift in Sources */,
+				859E2B281B405ED100BF1652 /* AnimationImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
