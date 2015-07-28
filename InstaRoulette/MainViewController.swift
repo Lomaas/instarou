@@ -29,9 +29,6 @@ class MainViewController: UIViewController {
     var finalImage: CustomImageView!
     var hasFetchedAssets = false
     var isAnimating = false
-    
-    var images = [CustomImageView]()
-    var currentImageIndex = 0
     var containerView: UIView!
     
     @IBOutlet weak var spinButton: UIButton!
@@ -69,7 +66,6 @@ class MainViewController: UIViewController {
             return
         }
         cleanUp()
-        
         var counter = 0    // Todo refactor to use async lib
         assets.shuffle()
         
@@ -117,22 +113,16 @@ class MainViewController: UIViewController {
         UIView.animateWithDuration(7, delay: 0, usingSpringWithDamping: 0.05, initialSpringVelocity: 1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
             self.containerView.center.y = self.view.center.y
         }) { (finish) -> Void in
-            self.storeImage(self.finalImage.image!)
+            self.createOverlay(self.finalImage)
+            self.storeImage(self.finalImage.pb_takeSnapshot())
         }
-    }
-
-    func getNextImageView() -> CustomImageView {
-        let imageView = images[currentImageIndex]
-        currentImageIndex++
-        currentImageIndex = currentImageIndex%(images.count - 1)
-        return imageView
     }
     
     func createOverlay(imageView: CustomImageView) {
         let text = "#instaRoulette"
-//        text += imageView.asset?.creationDate?.toString("yyyy-MM-dd") ?? ""
-        
         imageView.instaRouletteLabel.text = text
+
+//        text += imageView.asset?.creationDate?.toString("yyyy-MM-dd") ?? ""
 //
 //        if let location = imageView.asset?.location {
 //            LocationService.getLocationAddress(location) { (address) -> Void in
@@ -144,10 +134,11 @@ class MainViewController: UIViewController {
     }
     
     func cleanUp() {
-        for image in images {
-            image.removeFromSuperview()
+        finalImage = nil
+        
+        if let _ = containerView?.superview {
+            containerView.removeFromSuperview()
         }
-        images.removeAll()
     }
     
     // MARK: Fetch images from storage
