@@ -40,11 +40,9 @@ class MainViewController: UIViewController {
             return
         }
         
-        if isAnimating {
-            return
+        if !isAnimating {
+            start()
         }
-        
-        start()
     }
     
     override func viewDidLoad() {
@@ -98,7 +96,7 @@ class MainViewController: UIViewController {
         let nib = NSBundle.mainBundle().loadNibNamed("CustomImageView", owner: self, options: nil)
         let imageView = nib[0] as! CustomImageView
         let y = Int(imageHeight) * counter
-        print("y \(y)")
+
         imageView.frame = CGRectMake(0, CGFloat(y), CGFloat(imageWidth), CGFloat(imageHeight))
         imageView.instaRouletteLabel.text = ""
         imageView.image = image
