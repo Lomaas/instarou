@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8D7B56D2C2C2F24A4C1B3269883189FAB22B4C64",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8D7B56D2C2C2F24A4C1B3269883189FAB22B4C64" : 0,
+    "F5B4EC300E7199406BA2B2AA6070092FA65DDD89" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "EC530284-999B-41FE-8F1F-D0F3C7A896E6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8D7B56D2C2C2F24A4C1B3269883189FAB22B4C64" : "instarou",
+    "F5B4EC300E7199406BA2B2AA6070092FA65DDD89" : "PromiseKit\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "InstaRoulette",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "InstaRoulette.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Lomaas\/instarou.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8D7B56D2C2C2F24A4C1B3269883189FAB22B4C64"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:mxcl\/PromiseKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F5B4EC300E7199406BA2B2AA6070092FA65DDD89"
+    }
+  ]
+}

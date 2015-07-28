@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		680877511B65311D000F32C6 /* CustomImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 680877501B65311D000F32C6 /* CustomImageView.xib */; };
+		854CF6951B67EEB100A5E49A /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 854CF6861B67EE9D00A5E49A /* PromiseKit.framework */; };
+		854CF6961B67EEB100A5E49A /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 854CF6861B67EE9D00A5E49A /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		855513011B3B429F00970570 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855513001B3B429F00970570 /* LocationService.swift */; };
 		855513031B3B438D00970570 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 855513021B3B438D00970570 /* CoreLocation.framework */; };
 		855513051B3B469E00970570 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855513041B3B469E00970570 /* CustomImageView.swift */; };
@@ -22,6 +24,69 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		854CF6851B67EE9D00A5E49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63F803A31AB87A8200E4DEE1;
+			remoteInfo = PMKiOS;
+		};
+		854CF6871B67EE9D00A5E49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63F803CC1AB89A0F00E4DEE1;
+			remoteInfo = PMKOSX;
+		};
+		854CF6891B67EE9D00A5E49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6388E1A21AD315F90074D85B;
+			remoteInfo = PMKTests;
+		};
+		854CF68B1B67EE9D00A5E49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63533B331AE57A9300C10972;
+			remoteInfo = PMKAPlusTests;
+		};
+		854CF68D1B67EE9D00A5E49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 638E0ED51AEF16530052E28F;
+			remoteInfo = PMKiOSCategoryTests;
+		};
+		854CF68F1B67EE9D00A5E49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63CA14931AEA9CBE00223904;
+			remoteInfo = PMKiOSCategoryHostedTests;
+		};
+		854CF6911B67EE9D00A5E49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63CA14571AE9FBD000223904;
+			remoteInfo = PMKOSXCategoryTests;
+		};
+		854CF6931B67EE9D00A5E49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 638CDF031AEE734B0023A543;
+			remoteInfo = PMKTestHost;
+		};
+		854CF6971B67EEB100A5E49A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 63F803A21AB87A8200E4DEE1;
+			remoteInfo = PMKiOS;
+		};
 		857C17201B1F7CBA00E278FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 857C17021B1F7CBA00E278FD /* Project object */;
@@ -31,8 +96,23 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		854CF6991B67EEB100A5E49A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				854CF6961B67EEB100A5E49A /* PromiseKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		680877501B65311D000F32C6 /* CustomImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomImageView.xib; sourceTree = "<group>"; };
+		854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = ../../PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		855513001B3B429F00970570 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		855513021B3B438D00970570 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		855513041B3B469E00970570 /* CustomImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
@@ -55,6 +135,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				854CF6951B67EEB100A5E49A /* PromiseKit.framework in Frameworks */,
 				855513031B3B438D00970570 /* CoreLocation.framework in Frameworks */,
 				857C17301B1F7CC600E278FD /* Photos.framework in Frameworks */,
 			);
@@ -70,6 +151,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		854CF6791B67EE8C00A5E49A /* External */ = {
+			isa = PBXGroup;
+			children = (
+				854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
+		854CF67B1B67EE9C00A5E49A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				854CF6861B67EE9D00A5E49A /* PromiseKit.framework */,
+				854CF6881B67EE9D00A5E49A /* PromiseKit.framework */,
+				854CF68A1B67EE9D00A5E49A /* PMKTests.xctest */,
+				854CF68C1B67EE9D00A5E49A /* PMKAPlusTests.xctest */,
+				854CF68E1B67EE9D00A5E49A /* PMKiOSCategoryTests.xctest */,
+				854CF6901B67EE9D00A5E49A /* PMKiOSCategoryHostedTests.xctest */,
+				854CF6921B67EE9D00A5E49A /* PMKOSXCategoryTests.xctest */,
+				854CF6941B67EE9D00A5E49A /* PMKTestHost.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		854CF69A1B67EEBD00A5E49A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				857C17111B1F7CBA00E278FD /* MainViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		854CF69B1B67EED800A5E49A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				855513001B3B429F00970570 /* LocationService.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
 		857C17011B1F7CBA00E278FD = {
 			isa = PBXGroup;
 			children = (
@@ -95,10 +215,11 @@
 			children = (
 				857C170F1B1F7CBA00E278FD /* AppDelegate.swift */,
 				857C17131B1F7CBA00E278FD /* Main.storyboard */,
-				857C17111B1F7CBA00E278FD /* MainViewController.swift */,
+				854CF6791B67EE8C00A5E49A /* External */,
+				854CF69A1B67EEBD00A5E49A /* ViewControllers */,
 				859E46781B65413800C66EAF /* views */,
+				854CF69B1B67EED800A5E49A /* Services */,
 				859E2B271B405ED100BF1652 /* AnimationImageView.swift */,
-				855513001B3B429F00970570 /* LocationService.swift */,
 				857C17161B1F7CBA00E278FD /* Images.xcassets */,
 				857C17181B1F7CBA00E278FD /* LaunchScreen.xib */,
 				857C170D1B1F7CBA00E278FD /* Supporting Files */,
@@ -150,10 +271,12 @@
 				857C17061B1F7CBA00E278FD /* Sources */,
 				857C17071B1F7CBA00E278FD /* Frameworks */,
 				857C17081B1F7CBA00E278FD /* Resources */,
+				854CF6991B67EEB100A5E49A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				854CF6981B67EEB100A5E49A /* PBXTargetDependency */,
 			);
 			name = InstaRoulette;
 			productName = InstaRoulette;
@@ -209,6 +332,12 @@
 			mainGroup = 857C17011B1F7CBA00E278FD;
 			productRefGroup = 857C170B1B1F7CBA00E278FD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 854CF67B1B67EE9C00A5E49A /* Products */;
+					ProjectRef = 854CF67A1B67EE9C00A5E49A /* PromiseKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				857C17091B1F7CBA00E278FD /* InstaRoulette */,
@@ -216,6 +345,65 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		854CF6861B67EE9D00A5E49A /* PromiseKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PromiseKit.framework;
+			remoteRef = 854CF6851B67EE9D00A5E49A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		854CF6881B67EE9D00A5E49A /* PromiseKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PromiseKit.framework;
+			remoteRef = 854CF6871B67EE9D00A5E49A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		854CF68A1B67EE9D00A5E49A /* PMKTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKTests.xctest;
+			remoteRef = 854CF6891B67EE9D00A5E49A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		854CF68C1B67EE9D00A5E49A /* PMKAPlusTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKAPlusTests.xctest;
+			remoteRef = 854CF68B1B67EE9D00A5E49A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		854CF68E1B67EE9D00A5E49A /* PMKiOSCategoryTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKiOSCategoryTests.xctest;
+			remoteRef = 854CF68D1B67EE9D00A5E49A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		854CF6901B67EE9D00A5E49A /* PMKiOSCategoryHostedTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKiOSCategoryHostedTests.xctest;
+			remoteRef = 854CF68F1B67EE9D00A5E49A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		854CF6921B67EE9D00A5E49A /* PMKOSXCategoryTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKOSXCategoryTests.xctest;
+			remoteRef = 854CF6911B67EE9D00A5E49A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		854CF6941B67EE9D00A5E49A /* PMKTestHost.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = PMKTestHost.app;
+			remoteRef = 854CF6931B67EE9D00A5E49A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		857C17081B1F7CBA00E278FD /* Resources */ = {
@@ -262,6 +450,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		854CF6981B67EEB100A5E49A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PMKiOS;
+			targetProxy = 854CF6971B67EEB100A5E49A /* PBXContainerItemProxy */;
+		};
 		857C17211B1F7CBA00E278FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 857C17091B1F7CBA00E278FD /* InstaRoulette */;
@@ -379,6 +572,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = InstaRoulette/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.7peak.$(PRODUCT_NAME:rfc1034identifier)";
@@ -393,6 +587,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = InstaRoulette/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.7peak.$(PRODUCT_NAME:rfc1034identifier)";
