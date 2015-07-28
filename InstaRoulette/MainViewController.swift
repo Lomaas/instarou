@@ -64,29 +64,34 @@ class MainViewController: UIViewController {
             presentAlertView("No pictures", message: "")
             return
         }
-        cleanUp()
-        var counter = 0    // Todo refactor to use async lib
-        assets.shuffle()
         
-        let maxImages = assets.count > maxImagesInMemory ? maxImagesInMemory : assets.count - 1
-        let x = (self.view.bounds.width/2) - CGFloat(imageWidth/2)
-        let y = Int(-imageHeight) * maxImages
-        let frame = CGRectMake(CGFloat(x), CGFloat(y), CGFloat(imageWidth), CGFloat(abs(y)))
-        containerView = UIView(frame: frame)
-        
-        self.view.insertSubview(containerView, belowSubview: self.spinButton)
-        
-        for index in 0...maxImages {
-            self.getImageFromAsset(assets[index]) { (image) -> Void in
-                let imageView = self.getImageView(image, counter: counter)
-                imageView.asset = self.assets[index]
-                self.containerView.addSubview(imageView)
-                if counter >= maxImages - 1 {
-                    self.configureAndStartAnimation()
+        func successHandler() {
+            var counter = 0    // Todo refactor to use async lib
+            assets.shuffle()
+            
+            let maxImages = assets.count > maxImagesInMemory ? maxImagesInMemory : assets.count - 1
+            let x = (self.view.bounds.width/2) - CGFloat(imageWidth/2)
+            let y = Int(-imageHeight) * maxImages
+            let frame = CGRectMake(CGFloat(x), CGFloat(y), CGFloat(imageWidth), CGFloat(abs(y)))
+            containerView = UIView(frame: frame)
+            
+            self.view.insertSubview(containerView, belowSubview: self.spinButton)
+            
+            for index in 0...maxImages {
+                self.getImageFromAsset(assets[index]) { (image) -> Void in
+                    let imageView = self.getImageView(image, counter: counter)
+                    imageView.asset = self.assets[index]
+                    self.containerView.addSubview(imageView)
+                    if counter >= maxImages - 1 {
+                        self.configureAndStartAnimation()
+                    }
+                    counter++
                 }
-                counter++
             }
+
         }
+        
+        cleanUp(successHandler)
     }
     
     func getImageView(image: UIImage, counter: Int) -> CustomImageView {
@@ -138,9 +143,17 @@ class MainViewController: UIViewController {
 //        }
     }
     
-    func cleanUp() {
+    func cleanUp(successHandler: () -> Void) {
         if let _ = containerView?.superview {
-            containerView.removeFromSuperview()
+            UIView.animateWithDuration(0.4, delay: 0,  options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                self.containerView.frame.origin.y = self.view.bounds.height
+            }) { (finish) -> Void in
+                self.isAnimating = false
+                self.containerView.removeFromSuperview()
+                successHandler()
+            }
+        } else {
+            successHandler()
         }
     }
     
