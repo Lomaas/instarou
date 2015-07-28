@@ -82,7 +82,7 @@ class MainViewController: UIViewController {
                 imageView.asset = self.assets[index]
                 self.containerView.addSubview(imageView)
                 
-                if counter == count - 1 {
+                if counter == count {
                     self.finalImage = imageView
                 }
                 else if counter > count {
