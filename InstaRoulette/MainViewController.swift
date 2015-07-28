@@ -26,7 +26,6 @@ class MainViewController: UIViewController {
     let maxImagesInMemory = 25
     var imageHeight: CGFloat!
     var imageWidth: CGFloat!
-    var finalImage: CustomImageView!
     var hasFetchedAssets = false
     var isAnimating = false
     var containerView: UIView!
@@ -69,25 +68,23 @@ class MainViewController: UIViewController {
         var counter = 0    // Todo refactor to use async lib
         assets.shuffle()
         
-        let count = assets.count > maxImagesInMemory ? maxImagesInMemory : assets.count - 1
+        let maxImages = assets.count > maxImagesInMemory ? maxImagesInMemory : assets.count - 1
         let x = (self.view.bounds.width/2) - CGFloat(imageWidth/2)
-        let frame = CGRectMake(CGFloat(x), CGFloat(-(Int(imageHeight) * maxImagesInMemory)), CGFloat(imageWidth), CGFloat(Int(imageHeight) * maxImagesInMemory))
+        let y = Int(-imageHeight) * maxImages
+        let frame = CGRectMake(CGFloat(x), CGFloat(y), CGFloat(imageWidth), CGFloat(abs(y)))
         containerView = UIView(frame: frame)
+        
         self.view.insertSubview(containerView, belowSubview: self.spinButton)
         
-        for index in 0...count {
+        for index in 0...maxImages {
             self.getImageFromAsset(assets[index]) { (image) -> Void in
-                counter++
                 let imageView = self.getImageView(image, counter: counter)
                 imageView.asset = self.assets[index]
                 self.containerView.addSubview(imageView)
-                
-                if counter == count {
-                    self.finalImage = imageView
-                }
-                else if counter > count {
+                if counter >= maxImages - 1 {
                     self.configureAndStartAnimation()
                 }
+                counter++
             }
         }
     }
@@ -96,6 +93,7 @@ class MainViewController: UIViewController {
         let nib = NSBundle.mainBundle().loadNibNamed("CustomImageView", owner: self, options: nil)
         let imageView = nib[0] as! CustomImageView
         let y = Int(imageHeight) * counter
+        print("y \(y)")
         imageView.frame = CGRectMake(0, CGFloat(y), CGFloat(imageWidth), CGFloat(imageHeight))
         imageView.instaRouletteLabel.text = ""
         imageView.image = image
@@ -108,14 +106,21 @@ class MainViewController: UIViewController {
     
     func configureAndStartAnimation() {
         if isAnimating { return }
-        
         isAnimating = true
-        UIView.animateWithDuration(7, delay: 0, usingSpringWithDamping: 0.05, initialSpringVelocity: 1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-            self.containerView.center.y = self.view.center.y
+        let finalY = view.center.y - imageHeight/2 - imageHeight
+        UIView.animateWithDuration(1.5, delay: 0,  options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            self.containerView.frame.origin.y = finalY
         }) { (finish) -> Void in
-            self.createOverlay(self.finalImage)
-            self.storeImage(self.finalImage.pb_takeSnapshot())
+            self.isAnimating = false
+            if let finalImage = self.getFinalImage() {
+                self.createOverlay(finalImage)
+                self.storeImage(finalImage.pb_takeSnapshot())
+            }
         }
+    }
+    
+    func getFinalImage() -> CustomImageView? {
+        return containerView.subviews[1] as? CustomImageView
     }
     
     func createOverlay(imageView: CustomImageView) {
@@ -134,8 +139,6 @@ class MainViewController: UIViewController {
     }
     
     func cleanUp() {
-        finalImage = nil
-        
         if let _ = containerView?.superview {
             containerView.removeFromSuperview()
         }
@@ -204,6 +207,8 @@ class MainViewController: UIViewController {
             UIApplication.sharedApplication().openURL(instagramURL)
         }
     }
+    
+    // MARK: AlertView
     
     func presentAlertView(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)

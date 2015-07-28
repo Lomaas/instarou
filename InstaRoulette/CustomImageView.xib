@@ -14,18 +14,18 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CustomImageView" customModule="InstaRoulette" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="351" height="348"/>
+            <rect key="frame" x="0.0" y="0.0" width="275" height="275"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tLg-rY-17V">
-                    <rect key="frame" x="0.0" y="323" width="351" height="25"/>
+                    <rect key="frame" x="0.0" y="250" width="275" height="25"/>
                     <color key="backgroundColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="vsX-qw-kwh"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#instaRoulette" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z5O-fB-erM">
-                    <rect key="frame" x="8" y="324" width="343" height="24"/>
+                    <rect key="frame" x="8" y="251" width="267" height="24"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -48,7 +48,7 @@
             <connections>
                 <outlet property="instaRouletteLabel" destination="z5O-fB-erM" id="bcp-o7-caC"/>
             </connections>
-            <point key="canvasLocation" x="37.5" y="162"/>
+            <point key="canvasLocation" x="8" y="101"/>
         </view>
     </objects>
 </document>
