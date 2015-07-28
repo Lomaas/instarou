@@ -23,31 +23,18 @@ protocol AnimationFromTopToBottomDelegate {
 
 class MainViewController: UIViewController {
     var assets = [PHAsset]()
-    let maxSpinTimes = Int(random(20...25))
     let maxImagesInMemory = 25
-    let imageHeight = 275.0
-    let imageWidth = 275.0
-    let startVelocity = CGFloat(2000)
-    var velocity: CGFloat
-    var spinned = 0
-    var secondPhaseSpinning: Int!
-    var finishAnimationCounter = 0
-    let finishAnimationCounterForFinalImage = 1
-    lazy var finishAnimationEndPointsArray = [CGPoint]()
-    var firstAnimationCenterPoint: CGPoint!
+    var imageHeight: CGFloat!
+    var imageWidth: CGFloat!
     var finalImage: CustomImageView!
     var hasFetchedAssets = false
     var isAnimating = false
     
     var images = [CustomImageView]()
     var currentImageIndex = 0
+    var containerView: UIView!
     
     @IBOutlet weak var spinButton: UIButton!
-    
-    required init?(coder aDecoder: NSCoder) {
-        velocity = startVelocity
-        super.init(coder: aDecoder)
-    }
     
     @IBAction func didPressInstaRoulette(sender: AnyObject) {
         if hasFetchedAssets == false || assets.count == 0 {
@@ -66,13 +53,8 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        secondPhaseSpinning = maxSpinTimes - 2
-        finishAnimationEndPointsArray = [
-            CGPointMake(self.view.center.x, self.view.center.y + CGFloat(imageHeight)),
-            CGPointMake(self.view.center.x, self.view.center.y),
-            CGPointMake(self.view.center.x, self.view.center.y - CGFloat(imageHeight))
-        ]
-        firstAnimationCenterPoint = CGPointMake(view.center.x, CGFloat(imageHeight/2))
+        imageHeight = view.bounds.width/CGFloat(1.5)
+        imageWidth = imageHeight
         fetchAssets(nil)
     }
     
@@ -92,29 +74,34 @@ class MainViewController: UIViewController {
         assets.shuffle()
         
         let count = assets.count > maxImagesInMemory ? maxImagesInMemory : assets.count - 1
+        let x = (self.view.bounds.width/2) - CGFloat(imageWidth/2)
+        let frame = CGRectMake(CGFloat(x), CGFloat(-(Int(imageHeight) * maxImagesInMemory)), CGFloat(imageWidth), CGFloat(Int(imageHeight) * maxImagesInMemory))
+        containerView = UIView(frame: frame)
+        self.view.insertSubview(containerView, belowSubview: self.spinButton)
         
         for index in 0...count {
             self.getImageFromAsset(assets[index]) { (image) -> Void in
                 counter++
-                let imageView = self.getImageView(image)
+                let imageView = self.getImageView(image, counter: counter)
                 imageView.asset = self.assets[index]
-                self.view.insertSubview(imageView, belowSubview: self.spinButton)
-                self.images.append(imageView)
+                self.containerView.addSubview(imageView)
                 
-                if counter > count {
+                if counter == count - 1 {
+                    self.finalImage = imageView
+                }
+                else if counter > count {
                     self.configureAndStartAnimation()
                 }
             }
         }
     }
     
-    func getImageView(image: UIImage) -> CustomImageView {
+    func getImageView(image: UIImage, counter: Int) -> CustomImageView {
         let nib = NSBundle.mainBundle().loadNibNamed("CustomImageView", owner: self, options: nil)
         let imageView = nib[0] as! CustomImageView
-        imageView.frame = CGRectMake(0, 0, CGFloat(imageWidth), CGFloat(imageHeight))
+        let y = Int(imageHeight) * counter
+        imageView.frame = CGRectMake(0, CGFloat(y), CGFloat(imageWidth), CGFloat(imageHeight))
         imageView.instaRouletteLabel.text = ""
-        
-        setStartPosForImageView(imageView)
         imageView.image = image
         imageView.layer.backgroundColor = UIColor.whiteColor().CGColor
         imageView.backgroundColor = UIColor.clearColor()
@@ -127,59 +114,13 @@ class MainViewController: UIViewController {
         if isAnimating { return }
         
         isAnimating = true
-        spinned = 0
-        velocity = startVelocity
-        finishAnimationCounter = 0
-
-        animateNextImage()
+        UIView.animateWithDuration(7, delay: 0, usingSpringWithDamping: 0.05, initialSpringVelocity: 1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            self.containerView.center.y = self.view.center.y
+        }) { (finish) -> Void in
+            self.storeImage(self.finalImage.image!)
+        }
     }
 
-    func animateFinish() {
-        if isAnimating == false {
-            return
-        }
-        
-        if finishAnimationCounter >= finishAnimationEndPointsArray.count {
-            isAnimating = false
-            createOverlay(finalImage)
-            storeImage(finalImage.pb_takeSnapshot())
-            
-            return
-        }
-        let imageView1 = getNextImageView()
-        setStartPosForImageView(imageView1)
-        let bottomCenterPoint = finishAnimationEndPointsArray[finishAnimationCounter];
-        
-        if finishAnimationCounter == finishAnimationCounterForFinalImage {
-            finalImage = imageView1
-        }
-        
-        let animationImageView1: AnimationImageView
-        if finishAnimationCounter == finishAnimationEndPointsArray.count - 1 {
-            animationImageView1 = AnimationImageView(imageView: imageView1,
-                velocity: velocity,
-                firstAnimationCenterPoint: bottomCenterPoint,
-                bottomCenterPoint: bottomCenterPoint,
-                shouldAnimateSecondPart: false
-            )
-        } else {
-            animationImageView1 = AnimationImageView(imageView: imageView1,
-                velocity: velocity,
-                firstAnimationCenterPoint: firstAnimationCenterPoint,
-                bottomCenterPoint: bottomCenterPoint,
-                shouldAnimateSecondPart: true
-            )
-        }
-        
-        finishAnimationCounter++
-        animationImageView1.delegate = self
-        animationImageView1.animateFirstPart()
-    }
-    
-    func setStartPosForImageView(imageView: UIImageView) {
-        imageView.center = CGPointMake(view.frame.width/2, -CGFloat(imageHeight/2))
-    }
-    
     func getNextImageView() -> CustomImageView {
         let imageView = images[currentImageIndex]
         currentImageIndex++
@@ -280,33 +221,6 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: AnimationFromTopToBottomDelegate {
-    func animateNextImage() {
-        if spinned >= maxSpinTimes {
-            animateFinish()
-            return
-        }
-        
-        let bottomCenterPoint = CGPointMake(view.center.x, view.frame.size.height + CGFloat(imageHeight/2))
-        let imageView = getNextImageView()
-        setStartPosForImageView(imageView)
-        
-        let animationImageView = AnimationImageView(imageView: imageView,
-            velocity: velocity,
-            firstAnimationCenterPoint:
-            firstAnimationCenterPoint,
-            bottomCenterPoint: bottomCenterPoint,
-            shouldAnimateSecondPart: true
-        )
-        animationImageView.delegate = self
-        animationImageView.animateFirstPart()
-    }
-    
-    func animationFinished() {
-        self.spinned++
-    }
-}
-
 extension NSDate {
     func toString(format: String) -> String {
         let dateFormatter = NSDateFormatter()
@@ -318,11 +232,9 @@ extension NSDate {
 extension UIView {
     func pb_takeSnapshot() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.mainScreen().scale)
-        
         drawViewHierarchyInRect(self.bounds, afterScreenUpdates: true)
         
         // old style: layer.renderInContext(UIGraphicsGetCurrentContext())
-        
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image
