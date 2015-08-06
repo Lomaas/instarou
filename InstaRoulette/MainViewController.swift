@@ -199,7 +199,7 @@ class MainViewController: UIViewController {
         let orientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
         lib.writeImageToSavedPhotosAlbum(image.CGImage!, orientation: orientation) { (url, error) -> Void in
             if let imageUrl = url {
-                self.postToInstagramUrlBased(imageUrl.absoluteString)
+                self.postToInstagramUrlBased(imageUrl.absoluteString!)
             } else {
                 self.postToInstagramUrlBased("lalala")
             }
@@ -209,13 +209,15 @@ class MainViewController: UIViewController {
     func postToInstagramUrlBased(assetFilePath: String) {
         let caption = "%23instaRoulette%20%40instarouletteapp"
         
-        guard let instagramURL = NSURL(string: "instagram://library?AssetPath=\(assetFilePath)&InstagramCaption=\(caption)") else {
+        let instagramURL = NSURL(string: "instagram://library?AssetPath=\(assetFilePath)&InstagramCaption=\(caption)")
+        
+        if instagramURL == nil {
             presentAlertView("Error", message: "Could not post image")
             return
         }
         
-        if UIApplication.sharedApplication().canOpenURL(instagramURL) {
-            UIApplication.sharedApplication().openURL(instagramURL)
+        if UIApplication.sharedApplication().canOpenURL(instagramURL!) {
+            UIApplication.sharedApplication().openURL(instagramURL!)
         }
     }
     
