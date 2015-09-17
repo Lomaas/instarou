@@ -6,7 +6,9 @@ extension Array {
     mutating func shuffle() {
         for i in 0..<(count - 1) {
             let j = Int(arc4random_uniform(UInt32(count - i))) + i
-            swap(&self[i], &self[j])
+            if i != j {
+                swap(&self[i], &self[j])
+            }
         }
     }
 }
@@ -183,11 +185,17 @@ class MainViewController: UIViewController {
         manager.requestImageForAsset(asset,
             targetSize: CGSize(width: 1024, height: 1024),
             contentMode: PHImageContentMode.AspectFit,
-            options: initialRequestOptions) { (result, _) in
+            options: initialRequestOptions) { (result, error) in
                 if let res: UIImage = result {
                     successHandler?(image: res)
                 } else {
-                    self.presentAlertView("Error", message: "An error occured while fetching the random photo")
+                    if let error = error, isCloudPhoto = error["PHImageResultIsInCloudKey"] as? Int
+                        where isCloudPhoto == 1 {
+                            //The photo is stored in iCloud
+                    } else {
+                        //This should be logged to GA
+                        self.presentAlertView("Error", message: "An error occured while fetching the random photo")
+                    }
                 }
         }
     }
@@ -199,7 +207,7 @@ class MainViewController: UIViewController {
         let orientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
         lib.writeImageToSavedPhotosAlbum(image.CGImage!, orientation: orientation) { (url, error) -> Void in
             if let imageUrl = url {
-                self.postToInstagramUrlBased(imageUrl.absoluteString!)
+                self.postToInstagramUrlBased(imageUrl.absoluteString)
             } else {
                 self.postToInstagramUrlBased("lalala")
             }
